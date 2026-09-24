@@ -1,0 +1,21 @@
+{
+  "name": "مشغّل البث",
+  "short_name": "بث",
+  "description": "مشغّل IPTV يدعم M3U و Xtream",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0e1a17",
+  "theme_color": "#0e1a17",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "https://api.iconify.design/mdi:television-classic.svg?color=%23f2b632&width=512&height=512",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
