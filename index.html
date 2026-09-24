@@ -3,235 +3,1159 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0a0f14">
+<meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>Prime IPTV</title>
+<title>AURORA</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+
 <style>
-:root{--bg:#0a0f14;--panel:#131a24;--panel2:#1a2432;--panel3:#232f3f;--line:#25313f;--line2:#354a5f;--txt:#eef4fb;--mut:#7e93ab;--acc:#f2b632;--acc2:#ffd166;--accGlow:#f2b63240;--ok:#4ade80;--err:#f87171;--radius:14px;--radius-sm:10px;--shadow:0 12px 40px #0009}
-[data-theme="amoled"]{--bg:#000;--panel:#0a0a0a;--panel2:#121212;--panel3:#1c1c1c;--line:#1f1f1f;--txt:#f0f0f0;--mut:#8a8a8a;--acc:#00d4ff;--acc2:#7ce7ff;--accGlow:#00d4ff40}
-[data-theme="light"]{--bg:#f2f4f8;--panel:#fff;--panel2:#f8fafc;--panel3:#eef2f7;--line:#e2e8f0;--line2:#cbd5e1;--txt:#0f172a;--mut:#64748b;--acc:#d97706;--acc2:#f59e0b;--accGlow:#d9770640;--shadow:0 12px 40px #0002}
-[data-theme="matrix"]{--bg:#000700;--panel:#001a00;--panel2:#002a00;--panel3:#00400a;--line:#0a3a0a;--txt:#b6ffb6;--mut:#4a8a4a;--acc:#00ff41;--acc2:#7fff9f;--accGlow:#00ff4140}
-[data-accent="cyan"]{--acc:#06b6d4;--acc2:#67e8f9;--accGlow:#06b6d440}
-[data-accent="pink"]{--acc:#ec4899;--acc2:#f9a8d4;--accGlow:#ec489940}
-[data-accent="red"]{--acc:#ef4444;--acc2:#fca5a5;--accGlow:#ef444440}
-[data-accent="violet"]{--acc:#8b5cf6;--acc2:#c4b5fd;--accGlow:#8b5cf640}
+/* ============================================================
+   APPLE-STYLE DESIGN SYSTEM
+   ============================================================ */
+:root{
+  /* Dark (default) */
+  --bg:#000000;
+  --surface:#1c1c1e;
+  --surface-2:#2c2c2e;
+  --surface-3:#3a3a3c;
+  --border:#38383a;
+  --text:#ffffff;
+  --text-2:#ebebf5;
+  --text-3:#8e8e93;
+  --text-4:#636366;
+  --accent:#ff9500;
+  --accent-2:#ffb143;
+  --accent-bg:#ff950018;
+  --ok:#30d158;
+  --warn:#ffd60a;
+  --err:#ff453a;
+  --fill:#76768033;
+  --fill-2:#7676802b;
+  
+  --radius:14px;
+  --radius-sm:10px;
+  --radius-lg:20px;
+  --radius-xl:26px;
+  
+  --header-h:56px;
+  --nav-h:56px;
+  --safe-t:env(safe-area-inset-top,0px);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --safe-l:env(safe-area-inset-left,0px);
+  --safe-r:env(safe-area-inset-right,0px);
+  
+  --font:'Noto Kufi Arabic',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;
+}
+
+[data-theme="light"]{
+  --bg:#ffffff;
+  --surface:#f2f2f7;
+  --surface-2:#e5e5ea;
+  --surface-3:#d1d1d6;
+  --border:#c6c6c8;
+  --text:#000000;
+  --text-2:#1c1c1e;
+  --text-3:#8e8e93;
+  --text-4:#c7c7cc;
+  --accent:#ff9500;
+  --accent-2:#ffb143;
+  --accent-bg:#ff950018;
+  --fill:#78788033;
+  --fill-2:#7878801a;
+}
+
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;margin:0;overflow:hidden}
-body{background:var(--bg);color:var(--txt);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",system-ui,sans-serif;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
-::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--line2);border-radius:10px}
-button,input,select{font:inherit;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px}
-button{cursor:pointer;min-height:42px;transition:all .15s}
-button:active{transform:scale(.96)}
-button.pri{background:var(--acc);color:#111;border-color:var(--acc);font-weight:700}
-button.ghost{background:transparent}
-button.icon{padding:8px 12px;min-width:44px;font-size:18px}
-header{display:flex;gap:8px;align-items:center;padding:8px 12px;height:56px;background:var(--panel);border-bottom:1px solid var(--line);flex-shrink:0;z-index:50}
-header .logo{font-size:17px;font-weight:800;white-space:nowrap;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
-header .search-box{flex:1;min-width:0;position:relative}
-header .search-box input{width:100%;padding:8px 38px 8px 12px;border-radius:24px;background:var(--bg);font-size:13px}
-header .search-box::before{content:"🔍";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:13px}
-.prayer-pill{display:flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line2);border-radius:24px;padding:6px 10px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0}
-.prayer-pill:hover{border-color:var(--acc)}
-.prayer-pill .city{color:var(--mut);font-weight:400;max-width:70px;overflow:hidden;text-overflow:ellipsis}
-.prayer-pill .next-name{color:var(--acc)}
-.prayer-pill .next-time{color:var(--txt);font-variant-numeric:tabular-nums}
-.prayer-pill.ramadan{background:linear-gradient(135deg,#4a2a00,#6b3f00);border-color:#d4a017}
-.prayer-pill.ramadan .next-name{color:#ffd166}
-.main-nav{display:flex;gap:4px;overflow-x:auto;padding:0 10px;background:var(--panel);border-bottom:1px solid var(--line);height:50px;align-items:center;scrollbar-width:none;flex-shrink:0}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--font);
+  font-weight:500;font-size:15px;line-height:1.4;
+  display:flex;flex-direction:column;
+  padding:var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l);
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:-.01em;
+  transition:background .3s,color .3s;
+}
+
+::-webkit-scrollbar{width:0;height:0}
+
+button,input,select{
+  font:inherit;font-family:var(--font);font-weight:500;
+  color:var(--text);background:var(--surface);
+  border:0;border-radius:var(--radius-sm);
+  padding:11px 16px;letter-spacing:-.01em;
+  transition:all .15s cubic-bezier(.4,0,.2,1);
+}
+button{cursor:pointer;min-height:44px}
+button:active{transform:scale(.96);opacity:.85}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{
+  outline:3px solid var(--accent);outline-offset:2px;
+}
+input,select{
+  background:var(--fill);border:0;
+}
+input::placeholder{color:var(--text-3)}
+input:focus{background:var(--fill-2);box-shadow:0 0 0 3px var(--accent-bg)}
+
+/* ============================================================
+   HEADER — Minimal Apple style
+   ============================================================ */
+header{
+  display:flex;gap:10px;align-items:center;
+  padding:10px 16px;height:var(--header-h);
+  background:var(--bg);
+  border-bottom:.5px solid var(--border);
+  flex-shrink:0;z-index:50;
+  position:relative;
+}
+.logo{
+  font-weight:800;font-size:19px;
+  letter-spacing:-.03em;
+  display:flex;align-items:center;gap:2px;
+  white-space:nowrap;
+  color:var(--text);
+}
+.logo-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--accent);
+  margin-right:2px;
+}
+
+.search-wrap{flex:1;min-width:0;position:relative;max-width:520px}
+.search-wrap input{
+  width:100%;padding:9px 38px 9px 14px;
+  background:var(--fill);border-radius:10px;
+  font-size:14px;
+}
+.search-wrap::before{
+  content:"⌕";position:absolute;right:14px;top:50%;
+  transform:translateY(-50%);font-size:16px;
+  color:var(--text-3);pointer-events:none;
+}
+
+/* Prayer indicator — صغير جنب الساعة */
+.prayer-pill{
+  display:flex;align-items:center;gap:6px;
+  background:transparent;border:0;padding:6px 10px;
+  font-size:13px;font-weight:600;
+  cursor:pointer;white-space:nowrap;flex-shrink:0;
+  border-radius:10px;
+  color:var(--text-2);
+  letter-spacing:-.01em;
+}
+.prayer-pill:hover{background:var(--fill)}
+.prayer-pill .p-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--text-3);flex-shrink:0;
+}
+.prayer-pill .p-name{color:var(--text)}
+.prayer-pill .p-time{
+  font-variant-numeric:tabular-nums;
+  color:var(--text-3);font-weight:500;
+}
+/* عند الاقتراب (آخر 5 دقائق) */
+.prayer-pill.soon .p-dot{
+  background:var(--accent);
+  animation:prayerPulse 1.5s infinite;
+}
+.prayer-pill.soon .p-name{color:var(--accent)}
+.prayer-pill.soon .p-time{color:var(--accent)}
+@keyframes prayerPulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(1.4)}
+}
+.prayer-pill.ramadan .p-dot{
+  background:#ffd60a;
+}
+.prayer-pill.ramadan .p-name{color:#ffd60a}
+
+.icon-btn{
+  width:38px;height:38px;padding:0;
+  display:grid;place-items:center;
+  background:transparent;border:0;
+  border-radius:50%;font-size:17px;
+  color:var(--text-2);flex-shrink:0;
+}
+.icon-btn:hover{background:var(--fill)}
+
+/* ============================================================
+   NAV — Segmented control Apple style
+   ============================================================ */
+.main-nav{
+  display:flex;gap:6px;padding:12px 16px;
+  height:var(--nav-h);align-items:center;flex-shrink:0;
+  overflow-x:auto;scrollbar-width:none;
+  border-bottom:.5px solid var(--border);
+  background:var(--bg);
+}
 .main-nav::-webkit-scrollbar{display:none}
-.main-nav button{background:transparent;border:0;padding:8px 14px;font-size:13px;color:var(--mut);border-radius:20px;white-space:nowrap;min-height:36px;display:flex;align-items:center;gap:5px}
-.main-nav button.on{background:var(--acc);color:#111;font-weight:700}
-main{flex:1;overflow-y:auto;min-height:0}
-.view{display:none;padding:14px}.view.active{display:block}
-.sec-head{display:flex;align-items:center;justify-content:space-between;margin:16px 0 10px}
-.sec-head:first-child{margin-top:0}
-.sec-head h2{margin:0;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
-.sec-head h2 .em{width:26px;height:26px;display:grid;place-items:center;background:var(--accGlow);border-radius:8px;font-size:13px}
-.sec-head .more{font-size:12px;color:var(--acc);background:transparent;border:0;padding:5px 8px;min-height:auto;cursor:pointer}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-@media(min-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;cursor:pointer;position:relative;display:flex;flex-direction:column;transition:transform .2s,border-color .2s}
-.card:hover{transform:translateY(-3px);border-color:var(--acc)}
-.card .poster{aspect-ratio:2/3;background:var(--panel2);position:relative;display:grid;place-items:center}
-.card .poster .fallback{font-size:36px;opacity:.35;font-weight:800}
-.card .poster .badge{position:absolute;top:6px;right:6px;background:#000b;backdrop-filter:blur(6px);padding:3px 7px;border-radius:7px;font-size:10px;color:#fff;font-weight:600}
-.card .poster .badge.live{background:#dc2626e6}
-.card .poster .badge.soon{background:linear-gradient(135deg,#7c2d12,#ea580c)}
-.card .poster .badge.new{background:linear-gradient(135deg,#14532d,#22c55e)}
-.card .play-ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,#000a);display:grid;place-items:center;opacity:0;transition:opacity .25s}
-.card:hover .play-ov{opacity:1}
-.card .play-ov .pl{width:42px;height:42px;border-radius:50%;background:var(--acc);color:#111;display:grid;place-items:center;font-size:18px}
-.card .info{padding:8px 10px;flex:1;display:flex;flex-direction:column;gap:3px}
-.card .info h3{margin:0;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card .info .sub{font-size:10px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card .fav-btn{position:absolute;top:6px;left:6px;background:#000b;backdrop-filter:blur(6px);border:0;color:#fff;font-size:15px;padding:5px 7px;min-height:auto;min-width:auto;border-radius:7px;line-height:1}
-.card .fav-btn.on{color:var(--acc)}
-.card .release-info{display:flex;align-items:center;gap:5px;font-size:10px;padding:5px 7px;background:var(--panel3);border-radius:6px;margin-top:auto}
-.card .release-info.soon{background:#7c2d1230;color:#fb923c;font-weight:600}
-.card .release-info.avail{background:#14532d30;color:#4ade80;font-weight:600}
-.card.coming-soon{opacity:.85}
-.hrow{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.main-nav button{
+  background:transparent;border:0;
+  padding:8px 16px;font-size:14px;font-weight:500;
+  color:var(--text-3);border-radius:10px;
+  white-space:nowrap;min-height:38px;
+  display:flex;align-items:center;gap:6px;
+  letter-spacing:-.01em;
+}
+.main-nav button:hover{color:var(--text);background:var(--fill)}
+.main-nav button.on{
+  color:var(--text);font-weight:700;
+  background:var(--surface-2);
+}
+.main-nav button.on:hover{background:var(--surface-3)}
+
+/* ============================================================
+   MAIN
+   ============================================================ */
+main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0}
+.view{display:none;padding:20px;max-width:1400px;margin:0 auto}
+.view.active{display:block;animation:viewIn .35s cubic-bezier(.4,0,.2,1)}
+@keyframes viewIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.sec{margin-bottom:32px}
+.sec-head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  margin-bottom:14px;
+}
+.sec-head h2{
+  margin:0;font-size:22px;font-weight:800;
+  letter-spacing:-.03em;line-height:1.2;
+}
+.sec-head h2 .em{
+  display:none;
+}
+.sec-head .more{
+  font-size:14px;color:var(--accent);background:transparent;
+  border:0;padding:6px 8px;min-height:auto;font-weight:600;
+  letter-spacing:-.01em;
+}
+.sec-head .more:hover{opacity:.7}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:16px;
+}
+@media(min-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}}
+@media(min-width:1200px){.grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}}
+
+.hrow{
+  display:flex;gap:14px;overflow-x:auto;
+  padding:4px 4px 14px;scrollbar-width:none;
+  margin:0 -4px;
+}
 .hrow::-webkit-scrollbar{display:none}
-.hrow .card{flex:0 0 140px}
-.hero{position:relative;border-radius:var(--radius);overflow:hidden;margin-bottom:16px;min-height:150px;background:linear-gradient(135deg,var(--panel2),var(--panel));border:1px solid var(--line);display:flex;align-items:center}
-.hero .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.28}
-.hero .hero-content{position:relative;padding:20px;z-index:1;max-width:560px}
-.hero .hero-tag{display:inline-block;padding:3px 9px;background:var(--acc);color:#111;border-radius:20px;font-size:10px;font-weight:700;margin-bottom:8px}
-.hero h1{margin:0 0 8px;font-size:20px}
-.hero p{margin:0 0 14px;color:var(--mut);font-size:12px}
-.continue-card{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:8px;cursor:pointer;margin-bottom:6px}
-.continue-card:hover{border-color:var(--acc)}
-.continue-card .thumb{width:80px;height:52px;border-radius:8px;flex-shrink:0;overflow:hidden}
-.continue-card .info{flex:1;min-width:0}
-.continue-card .info b{display:block;font-size:13px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.continue-card .info small{color:var(--mut);font-size:10px}
-.continue-card .progress{height:3px;background:var(--panel3);border-radius:2px;margin-top:6px;overflow:hidden}
-.continue-card .progress > div{height:100%;background:var(--acc)}
-.player-modal{position:fixed;inset:0;z-index:1000;background:#000;display:none;flex-direction:column}
-.player-modal.open{display:flex}
-.player-top{display:flex;gap:10px;align-items:center;padding:10px 14px;position:absolute;top:0;left:0;right:0;z-index:2;padding-top:calc(10px + env(safe-area-inset-top));transition:opacity .25s}
-.player-modal.hide-ui .player-top,.player-modal.hide-ui .player-bottom{opacity:0;pointer-events:none}
-.player-top .title{flex:1;min-width:0;color:#fff;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.player-top .title small{display:block;font-size:10px;opacity:.7;font-weight:400}
-.player-top button{background:#0009;backdrop-filter:blur(8px);border:0;color:#fff;font-size:16px;padding:8px 10px;min-width:40px;border-radius:10px}
-.player-stage{flex:1;position:relative;display:grid;place-items:center;background:#000}
-.player-stage video{width:100%;height:100%;object-fit:contain;display:block}
+.hrow .card{flex:0 0 150px}
+@media(min-width:600px){.hrow .card{flex:0 0 170px}}
+
+.card{
+  background:var(--surface);border:0;
+  border-radius:var(--radius);overflow:hidden;
+  cursor:pointer;position:relative;
+  transition:transform .3s cubic-bezier(.4,0,.2,1),box-shadow .3s;
+  display:flex;flex-direction:column;
+  box-shadow:0 1px 2px rgba(0,0,0,.15);
+}
+.card:hover,.card:focus{
+  transform:translateY(-4px) scale(1.02);
+  box-shadow:0 12px 32px rgba(0,0,0,.3);
+  z-index:2;
+}
+[data-theme="light"] .card{
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+}
+[data-theme="light"] .card:hover{
+  box-shadow:0 12px 32px rgba(0,0,0,.12);
+}
+.card:active{transform:scale(.98)}
+.card .poster{
+  aspect-ratio:2/3;background:var(--surface-2);
+  position:relative;display:grid;place-items:center;
+  overflow:hidden;
+}
+.card.wide .poster{aspect-ratio:16/9}
+.card .poster img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s cubic-bezier(.4,0,.2,1);
+}
+.card:hover .poster img{transform:scale(1.05)}
+.card .poster .fallback{
+  font-weight:900;font-size:44px;
+  color:var(--text-4);opacity:.4;
+  letter-spacing:-.05em;
+}
+.card .badge{
+  position:absolute;top:10px;right:10px;
+  padding:4px 9px;border-radius:8px;
+  font-size:11px;font-weight:700;
+  letter-spacing:-.01em;
+  background:rgba(0,0,0,.65);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  color:#fff;
+  display:flex;align-items:center;gap:5px;
+}
+.card .badge.live{background:rgba(255,59,48,.9)}
+.card .badge.live::before{
+  content:"";width:5px;height:5px;border-radius:50%;
+  background:#fff;
+}
+.card .badge.soon{background:rgba(255,149,0,.9)}
+.card .badge.new{background:rgba(48,209,88,.9);color:#000}
+.card .play-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(0,0,0,.5),transparent 60%);
+  display:grid;place-items:center;
+  opacity:0;transition:opacity .25s;
+}
+.card:hover .play-ov{opacity:1}
+.card .play-ov .pl{
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,.95);
+  color:#000;display:grid;place-items:center;
+  font-size:18px;font-weight:700;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);
+}
+.card .fav-btn{
+  position:absolute;top:10px;left:10px;
+  background:rgba(0,0,0,.5);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  border:0;color:#fff;font-size:14px;
+  padding:6px 8px;min-height:auto;min-width:auto;
+  border-radius:9px;line-height:1;
+}
+.card .fav-btn.on{background:var(--accent);color:#000}
+.card .info{padding:12px 14px;flex:1;display:flex;flex-direction:column;gap:3px}
+.card .info h3{
+  margin:0;font-size:14px;font-weight:700;
+  letter-spacing:-.02em;line-height:1.3;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.card .info .sub{
+  font-size:12px;color:var(--text-3);
+  font-weight:500;letter-spacing:-.01em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.card .release-info{
+  display:flex;align-items:center;gap:5px;
+  font-size:11px;padding:5px 8px;border-radius:7px;
+  background:var(--fill);margin-top:auto;
+  font-weight:600;color:var(--text-3);
+  letter-spacing:-.01em;
+}
+.card .release-info.soon{background:var(--accent-bg);color:var(--accent)}
+.card .release-info.avail{background:#30d15818;color:#30d158}
+.card .release-info .ri-ico{font-size:11px}
+
+/* ============================================================
+   HERO — Apple TV style
+   ============================================================ */
+.hero{
+  position:relative;border-radius:var(--radius-xl);
+  overflow:hidden;margin-bottom:32px;
+  min-height:280px;
+  background:var(--surface);
+  display:flex;align-items:flex-end;
+  box-shadow:0 20px 48px rgba(0,0,0,.4);
+}
+[data-theme="light"] .hero{box-shadow:0 20px 48px rgba(0,0,0,.08)}
+.hero .bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+}
+.hero .bg::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    transparent 20%,
+    rgba(0,0,0,.4) 60%,
+    rgba(0,0,0,.85) 100%);
+}
+.hero .hero-content{
+  position:relative;padding:36px;z-index:1;
+  max-width:640px;color:#fff;
+}
+.hero .hero-tag{
+  display:inline-block;padding:4px 10px;
+  background:rgba(255,255,255,.18);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  color:#fff;border-radius:8px;
+  font-size:11px;font-weight:700;
+  letter-spacing:.02em;margin-bottom:12px;
+}
+.hero h1{
+  margin:0 0 8px;font-weight:900;
+  font-size:34px;line-height:1.1;
+  letter-spacing:-.04em;
+}
+@media(min-width:800px){.hero h1{font-size:44px}}
+.hero p{
+  margin:0 0 20px;color:rgba(255,255,255,.85);
+  font-size:14px;font-weight:500;
+}
+.hero button{
+  margin-left:8px;
+}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 20px;border-radius:12px;
+  font-weight:700;font-size:14px;letter-spacing:-.01em;
+  border:0;cursor:pointer;
+  transition:all .15s;
+}
+.btn-pri{
+  background:var(--accent);color:#000;
+}
+.btn-pri:hover{background:var(--accent-2)}
+.btn-ghost{
+  background:rgba(255,255,255,.15);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  color:#fff;
+}
+.btn-ghost:hover{background:rgba(255,255,255,.25)}
+[data-theme="light"] .btn-ghost{
+  background:var(--fill);color:var(--text);
+}
+[data-theme="light"] .btn-ghost:hover{background:var(--fill-2)}
+
+/* ============================================================
+   PLAYER
+   ============================================================ */
+.player-modal{
+  position:fixed;inset:0;z-index:1000;
+  background:#000;display:none;flex-direction:column;
+}
+.player-modal.open{display:flex;animation:playerIn .4s cubic-bezier(.4,0,.2,1)}
+@keyframes playerIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+
+.player-top{
+  display:flex;gap:10px;align-items:center;
+  padding:14px 18px;padding-top:calc(14px + var(--safe-t));
+  position:absolute;top:0;left:0;right:0;z-index:3;
+  background:linear-gradient(180deg,rgba(0,0,0,.8),transparent);
+  transition:opacity .3s;
+}
+.player-modal.hide-ui .player-top,
+.player-modal.hide-ui .player-bottom{opacity:0;pointer-events:none}
+.player-top .title{
+  flex:1;min-width:0;color:#fff;
+  font-weight:700;font-size:16px;
+  letter-spacing:-.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.player-top .title small{
+  display:block;font-size:12px;opacity:.7;
+  font-weight:500;margin-top:2px;
+}
+.player-top button{
+  background:rgba(255,255,255,.15);
+  -webkit-backdrop-filter:blur(20px);
+  backdrop-filter:blur(20px);
+  border:0;color:#fff;
+  font-size:16px;padding:10px 12px;
+  min-width:42px;min-height:42px;
+  border-radius:12px;
+}
+.player-top button:hover{background:rgba(255,255,255,.25)}
+
+.player-stage{
+  flex:1;position:relative;
+  display:grid;place-items:center;
+  background:#000;overflow:hidden;
+}
+.player-stage video{
+  width:100%;height:100%;object-fit:contain;
+  display:block;
+}
 .player-stage.aspect-fill video{object-fit:cover}
 .player-stage.aspect-stretch video{object-fit:fill}
-.buffering{position:absolute;inset:0;display:none;place-items:center}
+
+.buffering{position:absolute;inset:0;display:none;place-items:center;pointer-events:none}
 .buffering.show{display:grid}
-.buffering .spinner{width:50px;height:50px;border-radius:50%;border:4px solid #fff3;border-top-color:var(--acc);animation:spin 1s linear infinite}
+.buffering .spinner{
+  width:56px;height:56px;border-radius:50%;
+  border:3px solid rgba(255,255,255,.15);
+  border-top-color:#fff;
+  animation:spin 1s linear infinite;
+}
 @keyframes spin{to{transform:rotate(360deg)}}
-.player-msg{position:absolute;bottom:90px;left:50%;transform:translateX(-50%);background:#000d;color:#fff;padding:8px 16px;border-radius:10px;font-size:12px;display:none;z-index:5}
-.player-msg.show{display:block}.player-msg.err{background:#4a1c1ce6}
-.player-bottom{position:absolute;bottom:0;left:0;right:0;padding:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom));background:linear-gradient(0deg,#000d,transparent);z-index:2;transition:opacity .25s}
-.seek-row{display:flex;align-items:center;gap:8px;color:#fff;font-size:11px;margin-bottom:6px}
-.seek-row .time{min-width:40px;text-align:center;font-variant-numeric:tabular-nums}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:#fff3;padding:0;border:0;min-height:auto}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--acc)}
-.controls{display:flex;gap:5px;align-items:center;color:#fff;flex-wrap:wrap}
+
+.player-msg{
+  position:absolute;bottom:130px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,.75);
+  -webkit-backdrop-filter:blur(20px);
+  backdrop-filter:blur(20px);
+  color:#fff;padding:11px 20px;border-radius:14px;
+  font-size:13px;font-weight:600;
+  display:none;z-index:5;max-width:90vw;text-align:center;
+  letter-spacing:-.01em;
+}
+.player-msg.show{display:block}
+
+.player-bottom{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:16px;padding-bottom:calc(16px + var(--safe-b));
+  background:linear-gradient(0deg,rgba(0,0,0,.8),transparent);
+  z-index:3;transition:opacity .3s;
+}
+.seek-row{
+  display:flex;align-items:center;gap:12px;
+  color:#fff;font-size:12px;margin-bottom:12px;
+  font-variant-numeric:tabular-nums;font-weight:600;
+}
+.seek-row .time{min-width:48px;text-align:center}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:4px;border-radius:100px;
+  background:rgba(255,255,255,.25);
+  padding:0;border:0;min-height:auto;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:16px;height:16px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 0 6px rgba(0,0,0,.4);
+}
+.controls{display:flex;gap:6px;align-items:center;color:#fff;flex-wrap:wrap}
 .controls .spacer{flex:1}
-.controls button{background:#ffffff12;backdrop-filter:blur(8px);border:0;color:#fff;padding:7px 9px;min-width:38px;min-height:38px;border-radius:9px;font-size:15px;display:grid;place-items:center}
-.dialog{background:var(--panel);border:1px solid var(--line);border-radius:20px;width:min(94vw,540px);max-height:90vh;overflow:hidden;box-shadow:var(--shadow);position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);display:none;z-index:2000}
-.dialog.open{display:flex;flex-direction:column;animation:pop .2s}
-@keyframes pop{from{opacity:0;transform:translate(-50%,-48%) scale(.94)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-.dialog .dlg-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);flex-shrink:0}
-.dialog .dlg-head h3{margin:0;font-size:16px;flex:1}
-.dialog .dlg-body{padding:16px;overflow-y:auto;flex:1}
-.dialog .dlg-foot{padding:10px 16px;border-top:1px solid var(--line);display:flex;gap:8px;flex-shrink:0}
+.controls button{
+  background:rgba(255,255,255,.15);
+  -webkit-backdrop-filter:blur(20px);
+  backdrop-filter:blur(20px);
+  border:0;color:#fff;
+  padding:9px 12px;min-width:42px;min-height:42px;
+  border-radius:12px;font-size:15px;font-weight:600;
+  display:grid;place-items:center;
+}
+.controls button:hover{background:rgba(255,255,255,.25)}
+
+.auto-quality-pill{
+  position:absolute;top:76px;left:18px;
+  background:rgba(0,0,0,.6);
+  -webkit-backdrop-filter:blur(20px);
+  backdrop-filter:blur(20px);
+  color:#fff;padding:7px 13px;border-radius:100px;
+  font-size:11px;font-weight:600;
+  z-index:6;display:none;align-items:center;gap:7px;
+  letter-spacing:-.01em;
+}
+.auto-quality-pill.show{display:flex}
+.auto-quality-pill .aq-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--ok);
+}
+
+/* ============================================================
+   DIALOGS — Apple sheet style
+   ============================================================ */
+.dialog{
+  background:var(--surface);color:var(--text);
+  border:0;border-radius:var(--radius-xl);
+  width:min(94vw,540px);max-height:90vh;
+  overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.5);
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  display:none;z-index:2000;
+}
+[data-theme="light"] .dialog{box-shadow:0 32px 80px rgba(0,0,0,.15)}
+.dialog.open{display:flex;flex-direction:column;animation:sheetIn .35s cubic-bezier(.32,.72,0,1)}
+@keyframes sheetIn{from{opacity:0;transform:translate(-50%,-46%) scale(.94)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.dialog::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:rgba(0,0,0,.5);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+}
+.dialog .dlg-head{
+  display:flex;align-items:center;gap:10px;
+  padding:20px 20px 16px;
+  flex-shrink:0;
+}
+.dialog .dlg-head h3{
+  margin:0;font-weight:800;
+  font-size:19px;letter-spacing:-.03em;flex:1;
+}
+.dialog .dlg-body{padding:0 20px 20px;overflow-y:auto;flex:1}
+.dialog .dlg-foot{
+  padding:14px 20px;padding-bottom:calc(14px + var(--safe-b));
+  display:flex;gap:10px;flex-shrink:0;
+  border-top:.5px solid var(--border);
+}
 .dialog .dlg-foot button{flex:1}
-.dlg-tabs{display:flex;gap:4px;padding:10px 16px 0;border-bottom:1px solid var(--line)}
-.dlg-tabs button{background:transparent;border:0;padding:9px 12px;color:var(--mut);font-size:12px;min-height:36px;border-radius:9px 9px 0 0}
-.dlg-tabs button.on{color:var(--txt);background:var(--panel2);font-weight:700;box-shadow:inset 0 -3px 0 var(--acc)}
-.dlg-field{margin-bottom:12px}
-.dlg-field label{display:block;font-size:11px;color:var(--mut);margin-bottom:5px}
-.dlg-field input,.dlg-field select{width:100%;padding:11px}
-.dlg-note{font-size:11px;color:var(--mut);line-height:1.7;padding:9px;background:var(--bg);border-radius:9px;border:1px solid var(--line)}
-.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.theme-btn{aspect-ratio:1;border-radius:12px;border:2px solid var(--line);cursor:pointer;display:grid;place-items:center;position:relative;padding:0;min-height:auto;font-size:20px}
-.theme-btn.on{border-color:var(--acc);box-shadow:0 0 0 3px var(--accGlow)}
-.theme-btn span{font-size:9px;position:absolute;bottom:3px;left:3px;right:3px;color:#fff;text-shadow:0 1px 2px #000}
-.accent-grid{display:flex;gap:7px;flex-wrap:wrap}
-.accent-btn{width:34px;height:34px;border-radius:50%;border:3px solid transparent;padding:0;min-height:auto}
-.accent-btn.on{border-color:var(--txt)}
-.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-.stat{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
-.stat b{display:block;font-size:20px;color:var(--acc);font-weight:800}
-.stat span{font-size:10px;color:var(--mut)}
-.settings-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border-radius:12px;overflow:hidden}
-.settings-row{background:var(--panel);padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer}
-.settings-row:hover{background:var(--panel2)}
-.settings-row .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--panel2);font-size:15px;flex-shrink:0}
+
+.dlg-tabs{
+  display:flex;gap:4px;padding:12px 20px 0;
+  flex-shrink:0;
+}
+.dlg-tabs button{
+  background:var(--fill);border:0;padding:8px 14px;
+  font-weight:600;font-size:13px;
+  color:var(--text-3);border-radius:9px;
+  min-height:34px;letter-spacing:-.01em;
+}
+.dlg-tabs button.on{
+  color:var(--text);background:var(--surface-3);
+  font-weight:700;
+}
+
+.dlg-field{margin-bottom:14px}
+.dlg-field label{
+  display:block;font-size:12px;font-weight:600;
+  color:var(--text-3);margin-bottom:6px;
+  letter-spacing:-.01em;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.dlg-field input,.dlg-field select{
+  width:100%;padding:12px 14px;
+  font-size:15px;
+}
+.dlg-note{
+  font-size:12px;color:var(--text-3);
+  line-height:1.6;padding:12px 14px;
+  background:var(--fill);border-radius:12px;
+  font-weight:500;letter-spacing:-.01em;
+}
+
+/* ============================================================
+   SETTINGS — iOS style
+   ============================================================ */
+.settings-tabs{
+  display:flex;gap:4px;padding:0 16px 12px;
+  overflow-x:auto;scrollbar-width:none;flex-shrink:0;
+}
+.settings-tabs::-webkit-scrollbar{display:none}
+.settings-tabs button{
+  background:var(--fill);border:0;
+  padding:8px 14px;color:var(--text-3);
+  font-size:13px;font-weight:600;
+  border-radius:9px;white-space:nowrap;min-height:34px;
+  letter-spacing:-.01em;
+}
+.settings-tabs button.on{
+  color:var(--text);
+  background:var(--surface-3);
+  font-weight:700;
+}
+.settings-pane{display:none}
+.settings-pane.on{display:block;animation:viewIn .25s}
+
+.settings-list{
+  background:var(--surface-2);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.settings-row{
+  background:transparent;
+  padding:14px 16px;
+  display:flex;align-items:center;gap:14px;
+  cursor:pointer;
+  border-bottom:.5px solid var(--border);
+  transition:background .15s;
+}
+.settings-row:last-child{border-bottom:0}
+.settings-row:hover{background:var(--surface-3)}
+.settings-row .ic{
+  width:32px;height:32px;border-radius:8px;
+  display:grid;place-items:center;
+  flex-shrink:0;font-size:15px;
+  background:var(--accent);
+  color:#000;
+}
+.settings-row .ic.gray{background:var(--fill);color:var(--text)}
 .settings-row .txt{flex:1;min-width:0}
-.settings-row .txt b{display:block;font-size:13px;margin-bottom:2px}
-.settings-row .txt small{color:var(--mut);font-size:10px}
-.settings-row .arr{color:var(--mut);font-size:16px}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:#000e;color:#fff;padding:10px 20px;border-radius:12px;font-size:13px;z-index:3000;opacity:0;transition:all .3s;pointer-events:none;max-width:90vw;text-align:center}
+.settings-row .txt b{
+  display:block;font-size:15px;font-weight:600;
+  letter-spacing:-.02em;margin-bottom:1px;
+}
+.settings-row .txt small{
+  color:var(--text-3);font-size:12px;
+  font-weight:500;letter-spacing:-.01em;
+}
+.settings-row .arr{
+  color:var(--text-4);font-size:16px;
+}
+
+/* Toggle */
+.toggle-switch{
+  position:relative;width:50px;height:30px;flex-shrink:0;
+  background:var(--fill);border-radius:100px;cursor:pointer;
+  transition:background .25s cubic-bezier(.4,0,.2,1);
+}
+.toggle-switch.on{background:var(--ok)}
+.toggle-switch::after{
+  content:"";position:absolute;top:2px;right:2px;
+  width:26px;height:26px;background:#fff;
+  border-radius:50%;transition:transform .25s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 2px 4px rgba(0,0,0,.2),0 0 0 .5px rgba(0,0,0,.04);
+}
+.toggle-switch.on::after{transform:translateX(-20px)}
+
+/* Engine cards */
+.engine-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:500px){.engine-grid{grid-template-columns:repeat(4,1fr)}}
+.engine-card{
+  background:var(--surface-2);border:2px solid transparent;
+  border-radius:var(--radius);
+  padding:16px 8px;cursor:pointer;text-align:center;
+  transition:all .2s;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  position:relative;
+}
+.engine-card:hover{background:var(--surface-3)}
+.engine-card.on{
+  background:var(--accent-bg);
+  border-color:var(--accent);
+}
+.engine-card .e-ico{font-size:26px}
+.engine-card .e-name{font-weight:700;font-size:13px;letter-spacing:-.02em}
+.engine-card .e-desc{font-size:11px;color:var(--text-3);line-height:1.4;font-weight:500}
+.engine-card .e-badge{
+  position:absolute;top:8px;right:8px;font-size:9px;
+  background:var(--accent);color:#000;
+  padding:3px 7px;border-radius:100px;
+  font-weight:800;
+}
+
+/* Theme — 2 options only */
+.theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.theme-btn{
+  aspect-ratio:1.4;
+  border-radius:var(--radius);border:2px solid transparent;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;
+  padding:0;min-height:auto;
+  font-size:14px;font-weight:700;
+  letter-spacing:-.02em;
+  transition:all .2s;
+  position:relative;
+}
+.theme-btn.on{border-color:var(--accent)}
+.theme-btn .tb-preview{
+  font-size:32px;
+}
+.theme-btn .tb-label{
+  font-size:12px;
+  font-weight:600;
+}
+
+/* Stats */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px}
+.stat{
+  background:var(--surface-2);border-radius:var(--radius);
+  padding:16px 8px;text-align:center;
+}
+.stat b{
+  display:block;font-weight:800;font-size:22px;
+  letter-spacing:-.04em;line-height:1;
+  margin-bottom:4px;
+}
+.stat span{
+  font-size:11px;color:var(--text-3);
+  font-weight:600;letter-spacing:-.01em;
+}
+
+/* ============================================================
+   PRAYER TIMES DIALOG — Small popover
+   ============================================================ */
+.prayer-dialog{
+  width:min(94vw,340px);
+}
+.prayer-dialog .dlg-body{padding:0 12px 12px}
+.prayer-list{
+  background:transparent;border-radius:0;
+}
+.prayer-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 14px;
+  background:transparent;
+  border-bottom:.5px solid var(--border);
+}
+.prayer-row:last-child{border-bottom:0}
+.prayer-row.next{
+  background:var(--accent-bg);
+  border-radius:10px;
+  border:0;margin:2px 0;
+  padding:12px 14px;
+}
+.prayer-row .pr-name{
+  font-weight:600;font-size:15px;
+  letter-spacing:-.02em;
+  display:flex;align-items:center;gap:10px;
+}
+.prayer-row.next .pr-name{color:var(--accent);font-weight:700}
+.prayer-row .pr-time{
+  font-weight:700;font-size:15px;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.01em;
+}
+.prayer-row.next .pr-time{color:var(--accent)}
+.prayer-row .pr-ico{font-size:14px;opacity:.6}
+
+/* ============================================================
+   TOAST — Apple notification
+   ============================================================ */
+#toast{
+  position:fixed;top:calc(var(--safe-t) + 12px);left:50%;
+  transform:translateX(-50%) translateY(-120px);
+  background:var(--surface-2);color:var(--text);
+  padding:12px 20px;border-radius:14px;
+  font-size:14px;font-weight:600;letter-spacing:-.01em;
+  z-index:3000;opacity:0;
+  transition:all .35s cubic-bezier(.32,.72,0,1);
+  pointer-events:none;max-width:90vw;text-align:center;
+  box-shadow:0 8px 32px rgba(0,0,0,.3);
+  border:.5px solid var(--border);
+}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#toast.ok{background:#1c4a2e}#toast.err{background:#4a1c1c}
-.empty{color:var(--mut);text-align:center;padding:30px 14px;border:1px dashed var(--line);border-radius:var(--radius);background:var(--panel)}
-.empty .ico{font-size:36px;display:block;margin-bottom:10px;opacity:.5}
-.empty h3{margin:0 0 6px;font-size:15px;color:var(--txt)}
-.empty p{margin:0;font-size:12px}
 
-/* Welcome / Location */
-.welcome-overlay{position:fixed;inset:0;z-index:5000;background:linear-gradient(135deg,#0a0f14,#131a24);display:none;align-items:center;justify-content:center;padding:20px}
-.welcome-overlay.show{display:flex}
-.welcome-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:26px 22px;max-width:400px;width:100%;text-align:center}
-.welcome-card .welcome-ico{font-size:56px;margin-bottom:14px}
-.welcome-card h2{margin:0 0 8px;font-size:20px;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.welcome-card p{margin:0 0 20px;color:var(--mut);font-size:13px;line-height:1.7}
-.welcome-card button{width:100%;padding:13px;margin-bottom:9px;border-radius:11px;font-size:14px}
-.welcome-card .privacy{font-size:10px;color:var(--mut);margin-top:14px;line-height:1.6}
+/* ============================================================
+   EMPTY
+   ============================================================ */
+.empty{
+  color:var(--text-3);text-align:center;padding:60px 20px;
+  background:var(--surface);
+  border-radius:var(--radius-lg);
+}
+.empty .ico{font-size:48px;display:block;margin-bottom:16px;opacity:.3}
+.empty h3{
+  margin:0 0 6px;font-weight:800;font-size:18px;
+  color:var(--text);letter-spacing:-.03em;
+}
+.empty p{margin:0;font-size:13px;font-weight:500;line-height:1.5}
 
-/* Ramadan */
-.ramadan-hero{position:relative;border-radius:var(--radius);overflow:hidden;margin-bottom:16px;padding:22px 18px;background:linear-gradient(135deg,#1a0f00,#4a2a00 50%,#1a0f00);border:1px solid #d4a01760}
-.ramadan-hero .ram-lanterns{position:absolute;top:0;left:0;right:0;font-size:22px;text-align:center;letter-spacing:55px;opacity:.4;padding-top:6px;pointer-events:none}
-.ramadan-hero .ram-content{position:relative;z-index:1;text-align:center}
-.ramadan-hero .ram-title{font-size:20px;font-weight:800;margin:0 0 4px;background:linear-gradient(135deg,#ffd166,#d4a017);-webkit-background-clip:text;background-clip:text;color:transparent}
-.ramadan-hero .ram-sub{font-size:12px;color:#ffd166;opacity:.85;margin:0 0 14px}
-.ram-countdowns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.ram-count{background:#00000050;backdrop-filter:blur(8px);border:1px solid #d4a01740;border-radius:12px;padding:10px 8px;text-align:center}
-.ram-count.iftar{border-color:#ff9a3c60}
-.ram-count.suhoor{border-color:#7cb8ff60}
-.ram-count .ram-ico{font-size:18px;margin-bottom:3px}
-.ram-count .ram-label{font-size:10px;color:#ffd166;opacity:.8;margin-bottom:5px;font-weight:600}
-.ram-count .ram-time{font-size:19px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;direction:ltr}
-.ram-count.iftar .ram-time{color:#ffb86c}
-.ram-count.suhoor .ram-time{color:#a8d5ff}
-.ram-count .ram-exact{font-size:9px;color:#ffd16680;margin-top:3px}
-.ramadan-section{background:linear-gradient(135deg,#1a0f0020,#4a2a0010);border:1px solid #d4a01730;border-radius:var(--radius);padding:14px;margin-bottom:16px}
-.ramadan-section .sec-head{margin-top:0}
-.ram-badge{display:inline-block;background:linear-gradient(135deg,#d4a017,#ffd166);color:#1a0f00;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;margin-left:6px}
-.ram-schedule{display:flex;flex-direction:column;gap:6px;margin-top:10px}
-.ram-schedule .row{display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;cursor:pointer}
-.ram-schedule .row.live-now{border-color:#ef4444;background:#7f1d1d20}
-.ram-schedule .row .time{font-family:monospace;font-weight:700;color:#ffd166;font-size:13px;min-width:55px;text-align:center}
-.ram-schedule .row .ch-name{flex:1;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ram-schedule .row .ch-grp{font-size:9px;color:var(--mut);padding:2px 6px;background:var(--bg);border-radius:6px}
-.ram-schedule .row .live-dot{width:7px;height:7px;border-radius:50%;background:#ef4444;animation:pulse 1.4s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.ram-schedule .row .now-tag{font-size:9px;font-weight:700;color:#fff;background:#ef4444;padding:2px 7px;border-radius:10px}
+/* ============================================================
+   PIN
+   ============================================================ */
+.pin-display{
+  display:flex;justify-content:center;gap:12px;margin:18px 0;
+}
+.pin-display .dot{
+  width:14px;height:14px;border-radius:50%;
+  background:var(--fill);transition:all .2s;
+}
+.pin-display .dot.filled{background:var(--accent);transform:scale(1.15)}
+.pin-pad{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  max-width:280px;margin:0 auto;
+}
+.pin-pad button{
+  aspect-ratio:1;font-weight:600;font-size:22px;
+  background:var(--fill);border:0;
+  border-radius:16px;min-height:auto;
+  letter-spacing:-.02em;
+}
+.pin-pad button:hover{background:var(--fill-2)}
+.pin-pad button:active{background:var(--accent);color:#000}
 
-/* Prayer notification / pre-prayer warning */
-.prayer-toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-120%);background:linear-gradient(135deg,#4a2a00,#6b3f00);border:1px solid #d4a017;color:#ffd166;padding:12px 20px;border-radius:14px;font-size:13px;z-index:4000;transition:transform .5s;font-weight:600;display:flex;align-items:center;gap:8px;max-width:90vw}
-.prayer-toast.show{transform:translateX(-50%) translateY(0)}
-.pre-prayer-overlay{position:fixed;inset:0;z-index:4500;background:#000c;backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
-.pre-prayer-overlay.show{display:flex}
-.pre-prayer-card{background:linear-gradient(135deg,#1a0f00,#4a2a00);border:2px solid #d4a017;border-radius:20px;padding:24px 20px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px #000c;animation:pop .3s}
-.pre-prayer-card .pp-ico{font-size:52px;margin-bottom:10px}
-.pre-prayer-card h2{margin:0 0 8px;font-size:20px;color:#ffd166}
-.pre-prayer-card p{margin:0 0 6px;color:#fff;font-size:14px;line-height:1.6}
-.pre-prayer-card .pp-time{font-size:28px;font-weight:800;color:#ffd166;font-variant-numeric:tabular-nums;margin:10px 0;direction:ltr}
-.pre-prayer-card .pp-countdown{font-size:12px;color:#ffd166cc;margin-bottom:18px}
-.pre-prayer-card button{width:100%;padding:13px;margin-bottom:8px;border-radius:11px;font-size:14px}
-.pre-prayer-card .pp-stop{background:#22c55e;color:#fff;border-color:#22c55e;font-weight:700}
-.pre-prayer-card .pp-continue{background:#ffffff10;color:#fff;border:1px solid #ffffff30}
-.pre-prayer-card .pp-snooze{background:#ffffff10;color:#ffd166;border:1px solid #d4a01760;font-size:12px}
+.pin-lock-display{
+  text-align:center;padding:24px 20px;
+  background:var(--surface-2);border-radius:var(--radius);
+}
+.pin-lock-display .lock-ico{font-size:48px;margin-bottom:10px}
+.pin-lock-display h3{
+  margin:0 0 4px;font-weight:800;font-size:16px;
+  letter-spacing:-.03em;
+}
+.pin-lock-display p{margin:0;font-size:13px;color:var(--text-3);font-weight:500}
+
+/* ============================================================
+   VOICE
+   ============================================================ */
+.voice-fab{
+  position:fixed;bottom:calc(24px + var(--safe-b));left:24px;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--accent);
+  border:0;color:#000;font-size:22px;
+  display:grid;place-items:center;cursor:pointer;
+  box-shadow:0 8px 24px rgba(255,149,0,.35);
+  z-index:900;
+  transition:all .25s cubic-bezier(.32,.72,0,1);
+}
+.voice-fab:hover{transform:scale(1.06);box-shadow:0 12px 32px rgba(255,149,0,.45)}
+.voice-fab:active{transform:scale(.94)}
+.voice-fab.listening{
+  background:var(--err);
+  animation:voicePulse 1.4s infinite;
+}
+@keyframes voicePulse{
+  0%,100%{box-shadow:0 8px 24px rgba(255,69,58,.4),0 0 0 0 rgba(255,69,58,.5)}
+  50%{box-shadow:0 8px 24px rgba(255,69,58,.6),0 0 0 20px rgba(255,69,58,0)}
+}
+
+.voice-panel{
+  position:fixed;bottom:92px;left:24px;
+  width:min(92vw,380px);max-height:60vh;
+  background:var(--surface);border-radius:var(--radius-lg);
+  box-shadow:0 24px 64px rgba(0,0,0,.4);
+  z-index:901;display:none;flex-direction:column;
+  overflow:hidden;
+  border:.5px solid var(--border);
+}
+.voice-panel.open{display:flex;animation:sheetIn .3s}
+.voice-panel-head{
+  padding:14px 18px;
+  border-bottom:.5px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.voice-panel-head h3{
+  margin:0;font-size:15px;flex:1;
+  font-weight:700;letter-spacing:-.02em;
+}
+.voice-panel-body{padding:18px;flex:1;overflow-y:auto}
+.voice-transcript{
+  font-size:16px;font-weight:700;
+  text-align:center;padding:14px;
+  background:var(--fill);border-radius:12px;
+  min-height:60px;display:flex;align-items:center;
+  justify-content:center;line-height:1.5;
+  letter-spacing:-.02em;
+}
+.voice-response{
+  font-size:13px;color:var(--text-3);
+  text-align:center;padding:10px 12px;
+  margin-top:10px;background:var(--fill);
+  border-radius:10px;line-height:1.5;
+  font-weight:500;
+}
+.voice-commands{
+  padding:10px 18px;border-top:.5px solid var(--border);
+  display:flex;gap:6px;flex-wrap:wrap;
+}
+.voice-commands button{
+  background:var(--fill);border:0;
+  border-radius:100px;padding:6px 12px;
+  font-size:11px;font-weight:600;
+  min-height:auto;color:var(--text-3);
+  letter-spacing:-.01em;
+}
+.voice-commands button:hover{background:var(--fill-2);color:var(--text)}
+
+/* ============================================================
+   SERVER
+   ============================================================ */
+.server-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px;background:var(--surface-2);
+  border-radius:var(--radius);margin-bottom:8px;
+}
+.server-item.primary{background:var(--accent-bg)}
+.server-item .s-status{
+  width:10px;height:10px;border-radius:50%;
+  flex-shrink:0;background:var(--ok);
+}
+.server-item .s-status.slow{background:var(--warn)}
+.server-item .s-status.down{background:var(--err)}
+.server-item .s-status.testing{background:var(--accent);animation:prayerPulse 1s infinite}
+.server-item .s-info{flex:1;min-width:0}
+.server-item .s-info b{
+  display:block;font-size:14px;font-weight:600;
+  margin-bottom:2px;letter-spacing:-.02em;
+}
+.server-item .s-info small{
+  font-size:11px;color:var(--text-3);
+  font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;gap:8px;
+}
+.server-item .s-actions{display:flex;gap:4px}
+.server-item .s-actions button{
+  min-height:auto;padding:6px 8px;
+  background:var(--fill);border-radius:8px;
+  font-size:13px;
+}
+
+/* ============================================================
+   NET BADGE
+   ============================================================ */
+.net-badge{
+  position:fixed;top:calc(var(--header-h) + var(--safe-t) + 8px);
+  right:14px;
+  background:var(--surface-2);border:.5px solid var(--border);
+  border-radius:100px;padding:6px 11px;
+  font-size:11px;font-weight:600;
+  display:flex;align-items:center;gap:5px;
+  z-index:100;cursor:pointer;
+  letter-spacing:-.01em;
+}
+.net-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--ok)}
+.net-badge.warn .dot{background:var(--warn)}
+.net-badge.bad .dot{background:var(--err)}
+.net-badge .speed{font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   FAILOVER
+   ============================================================ */
+.failover-banner{
+  position:fixed;top:calc(var(--header-h) + var(--safe-t) + 12px);
+  left:50%;transform:translateX(-50%) translateY(-100px);
+  background:var(--surface-2);
+  color:var(--text);
+  padding:10px 16px;border-radius:100px;
+  font-size:12px;font-weight:600;
+  z-index:4000;transition:transform .4s cubic-bezier(.32,.72,0,1);
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,.3);
+  border:.5px solid var(--border);
+  letter-spacing:-.01em;
+}
+.failover-banner.show{transform:translateX(-50%) translateY(0)}
+.failover-banner .spinner-mini{
+  width:12px;height:12px;border-radius:50%;
+  border:2px solid var(--fill);
+  border-top-color:var(--accent);
+  animation:spin .8s linear infinite;
+}
+
+/* ============================================================
+   RAMADAN — Subtitle
+   ============================================================ */
+.ramadan-banner{
+  background:var(--surface);
+  border-radius:var(--radius-lg);
+  padding:18px 22px;
+  margin-bottom:24px;
+  display:flex;align-items:center;gap:16px;
+}
+.ramadan-banner .rb-ico{
+  font-size:36px;flex-shrink:0;
+}
+.ramadan-banner .rb-info{flex:1}
+.ramadan-banner .rb-title{
+  font-weight:800;font-size:16px;
+  letter-spacing:-.03em;margin-bottom:4px;
+}
+.ramadan-banner .rb-sub{
+  font-size:12px;color:var(--text-3);
+  font-weight:500;letter-spacing:-.01em;
+}
+.ramadan-banner .rb-times{
+  display:flex;gap:16px;margin-top:10px;
+}
+.ramadan-banner .rb-time{
+  display:flex;flex-direction:column;gap:2px;
+}
+.ramadan-banner .rb-time .t-label{
+  font-size:10px;color:var(--text-3);
+  font-weight:600;text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.ramadan-banner .rb-time .t-value{
+  font-size:16px;font-weight:800;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.03em;
+  color:var(--accent);
+}
+
+/* ============================================================
+   WELCOME
+   ============================================================ */
+.welcome-overlay{
+  position:fixed;inset:0;z-index:5000;
+  background:var(--bg);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.welcome-overlay.show{display:flex;animation:viewIn .4s}
+.welcome-card{
+  background:var(--surface);border-radius:var(--radius-xl);
+  padding:32px 24px;max-width:400px;width:100%;
+  text-align:center;
+  box-shadow:0 24px 64px rgba(0,0,0,.3);
+}
+.welcome-card .welcome-ico{font-size:56px;margin-bottom:16px}
+.welcome-card h2{
+  margin:0 0 10px;font-weight:900;
+  font-size:24px;letter-spacing:-.04em;
+}
+.welcome-card p{
+  margin:0 0 24px;color:var(--text-3);
+  font-size:14px;line-height:1.6;font-weight:500;
+}
+.welcome-card button{
+  width:100%;padding:14px;margin-bottom:8px;
+  border-radius:12px;font-size:15px;font-weight:700;
+  letter-spacing:-.01em;
+}
+.welcome-card .privacy{
+  font-size:11px;color:var(--text-4);
+  margin-top:16px;line-height:1.5;font-weight:500;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:600px){
+  header{padding:10px 12px;gap:8px}
+  .logo{font-size:17px}
+  .prayer-pill{padding:6px 8px;font-size:12px}
+  .prayer-pill .p-time{display:none}
+  .search-wrap input{padding:8px 34px 8px 12px;font-size:13px}
+  .view{padding:14px}
+  .sec-head h2{font-size:19px}
+  .hero{min-height:220px;border-radius:var(--radius-lg)}
+  .hero .hero-content{padding:24px}
+  .hero h1{font-size:26px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+  .hrow .card{flex:0 0 130px}
+  .dialog{width:100vw;max-width:100vw;border-radius:24px 24px 0 0;
+    top:auto;bottom:0;transform:translate(-50%,0);max-height:88vh}
+  .dialog.open{animation:sheetUpMobile .35s cubic-bezier(.32,.72,0,1)}
+  @keyframes sheetUpMobile{from{transform:translate(-50%,100%)}to{transform:translate(-50%,0)}}
+  .voice-fab{width:52px;height:52px;font-size:20px;bottom:20px;left:16px}
+  .stat-grid{gap:8px}
+  .stat b{font-size:19px}
+}
+
+/* TV/Large */
+@media (min-width:1200px) and (min-height:700px){
+  body{font-size:16px}
+  .view{padding:32px 48px;max-width:1800px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+  .hrow .card{flex:0 0 220px}
+  .hero{min-height:380px}
+  .hero h1{font-size:52px}
+  .sec-head h2{font-size:26px}
+  .voice-fab{width:64px;height:64px;font-size:26px;bottom:36px;left:36px}
+}
+@media (hover:none) and (pointer:coarse){
+  .card:focus{transform:scale(1.05);box-shadow:0 0 0 3px var(--accent),0 20px 48px rgba(0,0,0,.4)}
+  button:focus{box-shadow:0 0 0 3px var(--accent)}
+}
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">⚡ Prime IPTV</div>
-  <div class="search-box"><input id="globalSearch" type="search" placeholder="ابحث..." autocomplete="off"></div>
-  <button class="prayer-pill" id="prayerPill" title="مواقيت الصلاة">
-    <span>🕌</span>
-    <span class="city" id="pillCity">—</span>
-    <span class="next-name" id="pillNextName">—</span>
-    <span class="next-time" id="pillNextTime">--:--</span>
+  <div class="logo"><span class="logo-dot"></span>AURORA</div>
+  <div class="search-wrap">
+    <input id="globalSearch" type="search" placeholder="ابحث..." autocomplete="off">
+  </div>
+  <button class="prayer-pill" id="prayerPill" onclick="GeoSystem.showTimings()">
+    <span class="p-dot"></span>
+    <span class="p-name" id="pillNextName">الصلاة</span>
+    <span class="p-time" id="pillNextTime">--:--</span>
   </button>
-  <button class="icon" id="btnSettings" title="الإعدادات">⚙️</button>
+  <button class="icon-btn" id="btnSettings" onclick="openSettings()" title="الإعدادات">⚙︎</button>
 </header>
 
 <nav class="main-nav" id="mainNav">
-  <button data-view="home" class="on">🏠 <span>الرئيسية</span></button>
-  <button data-view="live">📺 <span>مباشر</span></button>
-  <button data-view="movies">🎬 <span>أفلام</span></button>
-  <button data-view="series">🎞️ <span>مسلسلات</span></button>
-  <button data-view="favorites">⭐ <span>المفضلة</span></button>
+  <button data-view="home" class="on">الرئيسية</button>
+  <button data-view="live">مباشر</button>
+  <button data-view="movies">أفلام</button>
+  <button data-view="series">مسلسلات</button>
+  <button data-view="favorites">مفضلة</button>
+  <button onclick="openDialog('ytDialog')">يوتيوب</button>
 </nav>
 
 <main id="mainArea">
@@ -242,6 +1166,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   <section class="view" id="view-favorites"><div id="favoritesContent"></div></section>
 </main>
 
+<!-- PLAYER -->
 <div class="player-modal" id="playerModal">
   <div class="player-top">
     <button id="playerClose">✕</button>
@@ -249,12 +1174,15 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     <button id="playerFav">☆</button>
     <button id="playerPip">⧉</button>
   </div>
-  <div class="player-stage aspect-fit" id="playerStage">
+  <div class="player-stage" id="playerStage">
     <video id="videoEl" controls playsinline autoplay preload="metadata"></video>
     <div class="buffering" id="buffering"><div class="spinner"></div></div>
     <div class="player-msg" id="playerMsg"></div>
+    <div class="auto-quality-pill" id="autoQualityPill">
+      <span class="aq-dot"></span><span id="aqText">جودة تلقائية</span>
+    </div>
   </div>
-  <div class="player-bottom">
+  <div class="player-bottom" id="playerBottom">
     <div class="seek-row">
       <span class="time" id="timeCur">0:00</span>
       <input type="range" id="seekBar" min="0" max="100" value="0" step="0.1">
@@ -273,104 +1201,351 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   </div>
 </div>
 
+<!-- VOICE -->
+<button class="voice-fab" id="voiceFab">🎙︎</button>
+<div class="voice-panel" id="voicePanel">
+  <div class="voice-panel-head">
+    <h3>المساعد الصوتي</h3>
+    <button class="icon-btn" onclick="VoiceAssistant.close()" style="width:32px;height:32px;min-height:auto;font-size:14px">✕</button>
+  </div>
+  <div class="voice-panel-body">
+    <div class="voice-transcript" id="voiceTranscript">اضغط 🎙︎ وابدأ الكلام</div>
+    <div class="voice-response" id="voiceResponse"></div>
+  </div>
+  <div class="voice-commands">
+    <button onclick="VoiceAssistant.quickTry('شغل الجزيرة')">شغل الجزيرة</button>
+    <button onclick="VoiceAssistant.quickTry('افتح يوتيوب')">افتح يوتيوب</button>
+    <button onclick="VoiceAssistant.quickTry('وش سرعة النت')">سرعة النت</button>
+    <button onclick="VoiceAssistant.quickTry('الصلاة القادمة')">الصلاة القادمة</button>
+  </div>
+</div>
+
+<!-- NET BADGE -->
+<div class="net-badge" id="netBadge" onclick="NetworkOptimizer.openPanel()">
+  <span class="dot"></span>
+  <span class="speed" id="netSpeedMini">—</span>
+  <span style="color:var(--text-3)">Mbps</span>
+</div>
+
+<!-- FAILOVER -->
+<div class="failover-banner" id="failoverBanner">
+  <span class="spinner-mini"></span>
+  <span id="failoverText">جاري التبديل...</span>
+</div>
+
+<!-- WELCOME -->
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-card">
+    <div class="welcome-ico">📍</div>
+    <h2>مرحباً بك</h2>
+    <p>نحتاج موقعك لحساب مواقيت الصلاة وعدّاد الإفطار في رمضان.</p>
+    <button class="btn btn-pri" id="btnAllowLocation" style="justify-content:center">السماح بالوصول للموقع</button>
+    <button class="btn btn-ghost" id="btnManualLocation" style="justify-content:center">اختيار يدوياً</button>
+    <div class="privacy">🔒 موقعك يُحفظ على جهازك فقط</div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="dialog" id="settingsDialog" style="width:min(96vw,680px);max-height:92vh">
+  <div class="dlg-head">
+    <h3>الإعدادات</h3>
+    <button class="icon-btn" onclick="closeDialog('settingsDialog')" style="width:32px;height:32px;min-height:auto;font-size:14px">✕</button>
+  </div>
+  <div class="settings-tabs" id="settingsTabs">
+    <button data-stab="general" class="on">عام</button>
+    <button data-stab="player">المشغل</button>
+    <button data-stab="servers">السيرفرات</button>
+    <button data-stab="security">الأمان</button>
+    <button data-stab="appearance">المظهر</button>
+    <button data-stab="stats">إحصائيات</button>
+    <button data-stab="tools">إدارة</button>
+  </div>
+  <div class="dlg-body" style="padding:0 16px 16px">
+    <div class="settings-pane on" data-pane="general">
+      <div class="sec-head" style="margin-top:8px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">الموقع والقوائم</h2></div>
+      <div class="settings-list">
+        <div class="settings-row" onclick="GeoSystem.showTimings()">
+          <div class="ic">🕌</div>
+          <div class="txt"><b>مواقيت الصلاة</b><small id="setLocationCity">لم يتم التحديد</small></div>
+          <div class="arr">›</div>
+        </div>
+        <div class="settings-row" onclick="openLocationSettings()">
+          <div class="ic gray">📍</div>
+          <div class="txt"><b>تغيير الموقع</b><small>اختر مدينة</small></div>
+          <div class="arr">›</div>
+        </div>
+      </div>
+      <div class="sec-head" style="margin-top:22px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">القوائم</h2></div>
+      <div class="settings-list" id="playlistsList"></div>
+      <button class="btn btn-pri" style="width:100%;margin-top:12px;justify-content:center" onclick="closeDialog('settingsDialog');openDialog('playlistDialog')">إضافة قائمة</button>
+    </div>
+
+    <div class="settings-pane" data-pane="player">
+      <div class="sec-head" style="margin-top:8px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">محرك التشغيل</h2></div>
+      <div class="engine-grid" id="engineGrid">
+        <div class="engine-card on" data-engine="hlsjs">
+          <div class="e-ico">▶</div><div class="e-name">HLS.js</div>
+          <div class="e-desc">الافتراضي</div>
+          <div class="e-badge">موصى</div>
+        </div>
+        <div class="engine-card" data-engine="native">
+          <div class="e-ico">◇</div><div class="e-name">Native</div>
+          <div class="e-desc">iOS/Safari</div>
+        </div>
+        <div class="engine-card" data-engine="shaka">
+          <div class="e-ico">⚡</div><div class="e-name">Shaka</div>
+          <div class="e-desc">Google</div>
+        </div>
+        <div class="engine-card" data-engine="auto">
+          <div class="e-ico">◆</div><div class="e-name">تلقائي</div>
+          <div class="e-desc">الأفضل</div>
+        </div>
+      </div>
+      <div class="sec-head" style="margin-top:22px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">الجودة</h2></div>
+      <div class="settings-list">
+        <div class="settings-row">
+          <div class="ic gray">◻</div>
+          <div class="txt"><b>الجودة القصوى</b></div>
+          <select id="setQuality" style="width:auto;padding:6px 10px;font-size:13px;min-height:auto;background:var(--fill)">
+            <option value="auto">تلقائي</option>
+            <option value="1080">1080p</option>
+            <option value="720">720p</option>
+            <option value="480">480p</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <div class="ic gray">⌁</div>
+          <div class="txt"><b>التأخير المنخفض</b><small>أسرع</small></div>
+          <div class="toggle-switch" id="toggleLowLatency" onclick="this.classList.toggle('on');PlayerEngine.setPref('lowLatency',this.classList.contains('on'))"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-pane" data-pane="servers">
+      <div class="sec-head" style="margin-top:8px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">السيرفرات</h2></div>
+      <div id="serverList"></div>
+      <div style="display:grid;gap:8px;margin-top:12px">
+        <input id="newServerName" placeholder="اسم السيرفر">
+        <input id="newServerUrl" placeholder="https://..." dir="ltr">
+        <button class="btn btn-pri" onclick="ServerManager.add()" style="justify-content:center">إضافة</button>
+      </div>
+      <div class="settings-row" style="margin-top:12px;background:var(--surface-2);border-radius:var(--radius)">
+        <div class="ic gray">⇄</div>
+        <div class="txt"><b>التبديل التلقائي</b><small>عند فشل السيرفر</small></div>
+        <div class="toggle-switch on" id="toggleFailover" onclick="this.classList.toggle('on');ServerManager.setAutoFailover(this.classList.contains('on'))"></div>
+      </div>
+      <button class="btn btn-ghost" style="width:100%;margin-top:12px;justify-content:center;background:var(--fill);color:var(--text)" onclick="ServerManager.testAll()">اختبار الكل</button>
+    </div>
+
+    <div class="settings-pane" data-pane="security">
+      <div class="sec-head" style="margin-top:8px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">قفل PIN</h2></div>
+      <div id="pinStatus"></div>
+      <div class="sec-head" style="margin-top:22px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">خيارات الأمان</h2></div>
+      <div class="settings-list">
+        <div class="settings-row">
+          <div class="ic gray">🔒</div>
+          <div class="txt"><b>قفل التطبيق</b><small>PIN عند الفتح</small></div>
+          <div class="toggle-switch" id="toggleAppLock" onclick="PINLock.toggleAppLock(this)"></div>
+        </div>
+        <div class="settings-row">
+          <div class="ic gray">🧒</div>
+          <div class="txt"><b>وضع الأطفال</b></div>
+          <div class="toggle-switch" id="toggleKidsMode" onclick="PINLock.toggleKidsMode(this)"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-pane" data-pane="appearance">
+      <div class="sec-head" style="margin-top:8px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">المظهر</h2></div>
+      <div class="theme-grid" id="themeGrid">
+        <button class="theme-btn on" data-theme="dark" style="background:#000;color:#fff">
+          <div class="tb-preview">●</div>
+          <div class="tb-label">داكن</div>
+        </button>
+        <button class="theme-btn" data-theme="light" style="background:#fff;color:#000">
+          <div class="tb-preview">○</div>
+          <div class="tb-label">فاتح</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="settings-pane" data-pane="stats">
+      <div class="sec-head" style="margin-top:8px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">المحتوى</h2></div>
+      <div class="stat-grid">
+        <div class="stat"><b id="statLive">0</b><span>مباشر</span></div>
+        <div class="stat"><b id="statMovies">0</b><span>أفلام</span></div>
+        <div class="stat"><b id="statSeries">0</b><span>مسلسلات</span></div>
+      </div>
+      <div class="sec-head" style="margin-top:22px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">استخدامك</h2></div>
+      <div class="stat-grid">
+        <div class="stat"><b id="statWatchTime">0</b><span>ساعة</span></div>
+        <div class="stat"><b id="statFavs">0</b><span>مفضلة</span></div>
+        <div class="stat"><b id="statHistory">0</b><span>سجل</span></div>
+      </div>
+      <div class="sec-head" style="margin-top:22px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">الشبكة</h2></div>
+      <div class="settings-list">
+        <div class="settings-row" onclick="closeDialog('settingsDialog');NetworkOptimizer.openPanel()">
+          <div class="ic gray">◇</div>
+          <div class="txt"><b>محسّن الشبكة</b><small id="netStatusText">قياس السرعة</small></div>
+          <div class="arr">›</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-pane" data-pane="tools">
+      <div class="sec-head" style="margin-top:8px"><h2 style="font-size:14px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em">النسخ الاحتياطي</h2></div>
+      <div class="settings-list">
+        <div class="settings-row" onclick="exportFullBackup()">
+          <div class="ic gray">↑</div>
+          <div class="txt"><b>تصدير نسخة</b><small>كل البيانات</small></div>
+          <div class="arr">›</div>
+        </div>
+        <div class="settings-row" onclick="importFullBackup()">
+          <div class="ic gray">↓</div>
+          <div class="txt"><b>استيراد نسخة</b><small>من ملف</small></div>
+          <div class="arr">›</div>
+        </div>
+      </div>
+      <div class="sec-head" style="margin-top:22px"><h2 style="font-size:14px;color:#ff453a;text-transform:uppercase;letter-spacing:.05em">منطقة الخطر</h2></div>
+      <div class="settings-list">
+        <div class="settings-row" onclick="clearHistory()">
+          <div class="ic gray">◷</div>
+          <div class="txt"><b>مسح السجل</b></div>
+          <div class="arr">›</div>
+        </div>
+        <div class="settings-row" onclick="resetAll()">
+          <div class="ic gray" style="color:#ff453a">✕</div>
+          <div class="txt"><b style="color:#ff453a">إعادة تعيين</b><small>حذف كل شيء</small></div>
+          <div class="arr">›</div>
+        </div>
+      </div>
+      <div style="text-align:center;padding:24px;color:var(--text-4);font-size:11px;font-weight:500">
+        AURORA · الإصدار 1.0
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYLIST -->
 <div class="dialog" id="playlistDialog">
-  <div class="dlg-head"><h3>➕ إضافة قائمة</h3><button class="icon" onclick="closeDialog('playlistDialog')">✕</button></div>
+  <div class="dlg-head">
+    <h3>إضافة قائمة</h3>
+    <button class="icon-btn" onclick="closeDialog('playlistDialog')" style="width:32px;height:32px;min-height:auto;font-size:14px">✕</button>
+  </div>
   <div class="dlg-tabs">
-    <button data-ptab="url" class="on">رابط M3U</button>
+    <button data-ptab="url" class="on">رابط</button>
     <button data-ptab="xtream">Xtream</button>
     <button data-ptab="file">ملف</button>
   </div>
   <div class="dlg-body">
     <div id="ptab-url">
-      <div class="dlg-field"><label>اسم القائمة</label><input id="pl-name-url" placeholder="قنواتي"></div>
+      <div class="dlg-field"><label>الاسم</label><input id="pl-name-url" placeholder="قنواتي"></div>
       <div class="dlg-field"><label>رابط M3U</label><input id="pl-url" placeholder="https://..." dir="ltr"></div>
     </div>
     <div id="ptab-xtream" style="display:none">
-      <div class="dlg-field"><label>اسم القائمة</label><input id="pl-name-xt" placeholder="Xtream"></div>
-      <div class="dlg-field"><label>عنوان السيرفر</label><input id="xt-host" placeholder="http://host:port" dir="ltr"></div>
-      <div class="dlg-field"><label>اسم المستخدم</label><input id="xt-user" dir="ltr"></div>
+      <div class="dlg-field"><label>الاسم</label><input id="pl-name-xt" placeholder="Xtream"></div>
+      <div class="dlg-field"><label>السيرفر</label><input id="xt-host" placeholder="http://..." dir="ltr"></div>
+      <div class="dlg-field"><label>المستخدم</label><input id="xt-user" dir="ltr"></div>
       <div class="dlg-field"><label>كلمة المرور</label><input id="xt-pass" type="password" dir="ltr"></div>
     </div>
     <div id="ptab-file" style="display:none">
       <div class="dlg-field"><label>ملف M3U</label><input id="pl-file" type="file" accept=".m3u,.m3u8,.txt,text/plain"></div>
     </div>
-    <div class="dlg-note">استخدم قائمة من مزوّد مرخّص. إذا فشل الرابط (CORS)، استخدم تبويب "ملف".</div>
+    <div class="dlg-note">استخدم قائمة من مزوّد مرخّص.</div>
   </div>
   <div class="dlg-foot">
-    <button class="pri" id="btnLoadPlaylist">تحميل</button>
-    <button onclick="closeDialog('playlistDialog')">إلغاء</button>
+    <button class="btn btn-pri" id="btnLoadPlaylist" style="justify-content:center">تحميل</button>
+    <button class="btn btn-ghost" onclick="closeDialog('playlistDialog')" style="justify-content:center;background:var(--fill);color:var(--text)">إلغاء</button>
   </div>
 </div>
 
-<div class="dialog" id="settingsDialog">
-  <div class="dlg-head"><h3>⚙️ الإعدادات</h3><button class="icon" onclick="closeDialog('settingsDialog')">✕</button></div>
+<!-- YOUTUBE -->
+<div class="dialog" id="ytDialog" style="width:min(94vw,720px)">
+  <div class="dlg-head">
+    <h3>يوتيوب</h3>
+    <button class="icon-btn" onclick="closeDialog('ytDialog')" style="width:32px;height:32px;min-height:auto;font-size:14px">✕</button>
+  </div>
   <div class="dlg-body">
-    <div class="sec-head" style="margin-top:0"><h2><span class="em">📊</span> إحصائيات</h2></div>
-    <div class="stat-grid">
-      <div class="stat"><b id="statLive">0</b><span>مباشر</span></div>
-      <div class="stat"><b id="statMovies">0</b><span>أفلام</span></div>
-      <div class="stat"><b id="statSeries">0</b><span>مسلسلات</span></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <input id="ytQuery" placeholder="ابحث أو الصق رابط..." style="flex:1;padding:12px 14px">
+      <button class="btn btn-pri" id="ytSearchBtn" style="padding:12px 18px">بحث</button>
     </div>
-    <div class="sec-head"><h2><span class="em">📍</span> الموقع والمواقيت</h2></div>
-    <div class="settings-list">
-      <div class="settings-row" onclick="GeoSystem.showTimings()">
-        <div class="ic">🕌</div>
-        <div class="txt"><b>مواقيت الصلاة</b><small id="setLocationCity">لم يتم التحديد</small></div>
-        <div class="arr">›</div>
-      </div>
-      <div class="settings-row" onclick="openLocationSettings()">
-        <div class="ic">📍</div>
-        <div class="txt"><b>تغيير الموقع</b><small>اختر مدينة أخرى</small></div>
-        <div class="arr">›</div>
-      </div>
-    </div>
-    <div class="sec-head"><h2><span class="em">🎨</span> المظهر</h2></div>
-    <div class="theme-grid" id="themeGrid">
-      <button class="theme-btn on" data-theme="dark" style="background:#0a0f14;color:#f2b632">🌙<span>داكن</span></button>
-      <button class="theme-btn" data-theme="amoled" style="background:#000;color:#00d4ff">⬛<span>AMOLED</span></button>
-      <button class="theme-btn" data-theme="light" style="background:#f2f4f8;color:#d97706">☀️<span>نهاري</span></button>
-      <button class="theme-btn" data-theme="matrix" style="background:#000700;color:#00ff41">🟢<span>Matrix</span></button>
-    </div>
-    <div style="margin-top:12px">
-      <label style="font-size:11px;color:var(--mut)">لون التمييز</label>
-      <div class="accent-grid" id="accentGrid">
-        <button class="accent-btn on" data-accent="gold" style="background:#f2b632"></button>
-        <button class="accent-btn" data-accent="cyan" style="background:#06b6d4"></button>
-        <button class="accent-btn" data-accent="pink" style="background:#ec4899"></button>
-        <button class="accent-btn" data-accent="red" style="background:#ef4444"></button>
-        <button class="accent-btn" data-accent="violet" style="background:#8b5cf6"></button>
-      </div>
-    </div>
-    <div class="sec-head"><h2><span class="em">📚</span> القوائم</h2></div>
-    <div class="settings-list" id="playlistsList"></div>
-    <button class="pri" style="width:100%;margin-top:8px" onclick="closeDialog('settingsDialog');openDialog('playlistDialog')">➕ إضافة قائمة</button>
-    <div class="sec-head"><h2><span class="em">🛠️</span> إدارة</h2></div>
-    <div class="settings-list">
-      <div class="settings-row" onclick="exportFavs()"><div class="ic">📤</div><div class="txt"><b>تصدير المفضلة</b><small>احفظ القائمة كملف</small></div><div class="arr">›</div></div>
-      <div class="settings-row" onclick="importFavs()"><div class="ic">📥</div><div class="txt"><b>استيراد المفضلة</b><small>من ملف</small></div><div class="arr">›</div></div>
-      <div class="settings-row" onclick="clearHistory()"><div class="ic">🕐</div><div class="txt"><b>مسح السجل</b><small>حذف متابعة المشاهدة</small></div><div class="arr">›</div></div>
-      <div class="settings-row" onclick="clearAll()"><div class="ic">🗑️</div><div class="txt"><b>حذف الكل</b><small style="color:var(--err)">⚠️ لا يمكن التراجع</small></div><div class="arr">›</div></div>
-    </div>
+    <div class="dlg-note">الصق رابط فيديو → يعمل داخل التطبيق. البحث → يفتح يوتيوب في تاب جديد.</div>
   </div>
-  <div class="dlg-foot"><button onclick="closeDialog('settingsDialog')">إغلاق</button></div>
 </div>
 
-<div class="dialog" id="seriesDialog">
-  <div class="dlg-head"><h3 id="seriesTitle">المسلسل</h3><button class="icon" onclick="closeDialog('seriesDialog')">✕</button></div>
-  <div class="dlg-body" id="seriesBody"></div>
+<!-- YT PLAYER -->
+<div class="player-modal" id="ytPlayerModal" style="z-index:1100">
+  <div class="player-top">
+    <button id="ytClose">✕</button>
+    <div class="title" id="ytTitle">يوتيوب</div>
+  </div>
+  <div class="player-stage" style="background:#000">
+    <iframe id="ytFrame" style="width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
 </div>
 
-<div class="dialog" id="timingsDialog">
-  <div class="dlg-head"><h3>🕌 مواقيت الصلاة</h3><button class="icon" onclick="closeDialog('timingsDialog')">✕</button></div>
+<!-- PRAYER TIMES -->
+<div class="dialog prayer-dialog" id="timingsDialog">
+  <div class="dlg-head">
+    <h3>مواقيت الصلاة</h3>
+    <button class="icon-btn" onclick="closeDialog('timingsDialog')" style="width:32px;height:32px;min-height:auto;font-size:14px">✕</button>
+  </div>
   <div class="dlg-body" id="timingsBody"></div>
-  <div class="dlg-foot">
-    <button onclick="openLocationSettings()">📍 تغيير الموقع</button>
-    <button class="pri" onclick="closeDialog('timingsDialog')">إغلاق</button>
+</div>
+
+<!-- PIN -->
+<div class="dialog" id="pinDialog" style="width:min(94vw,340px)">
+  <div class="dlg-head">
+    <h3 id="pinDialogTitle">أدخل الرمز</h3>
+    <button class="icon-btn" onclick="PINLock.closePinDialog()" style="width:32px;height:32px;min-height:auto;font-size:14px">✕</button>
+  </div>
+  <div class="dlg-body" style="text-align:center">
+    <p id="pinDialogSub" style="font-size:13px;color:var(--text-3);margin:0 0 8px;font-weight:500">أدخل رمز PIN</p>
+    <div class="pin-display" id="pinDisplay">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="pin-pad">
+      <button data-pin="1">1</button><button data-pin="2">2</button><button data-pin="3">3</button>
+      <button data-pin="4">4</button><button data-pin="5">5</button><button data-pin="6">6</button>
+      <button data-pin="7">7</button><button data-pin="8">8</button><button data-pin="9">9</button>
+      <button data-pin="clear" style="background:rgba(255,69,58,.15);color:#ff453a">✕</button>
+      <button data-pin="0">0</button>
+      <button data-pin="back">⌫</button>
+    </div>
+    <p id="pinError" style="color:#ff453a;font-size:12px;min-height:16px;margin-top:12px;font-weight:600"></p>
   </div>
 </div>
 
+<!-- PIN SETUP -->
+<div class="dialog" id="pinSetupDialog" style="width:min(94vw,340px)">
+  <div class="dlg-head">
+    <h3>إعداد PIN</h3>
+    <button class="icon-btn" onclick="closeDialog('pinSetupDialog')" style="width:32px;height:32px;min-height:auto;font-size:14px">✕</button>
+  </div>
+  <div class="dlg-body" style="text-align:center">
+    <p id="pinSetupSub" style="font-size:13px;color:var(--text-3);margin:0 0 8px;font-weight:500">اختر 4 أرقام</p>
+    <div class="pin-display" id="pinSetupDisplay">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="pin-pad">
+      <button data-pinset="1">1</button><button data-pinset="2">2</button><button data-pinset="3">3</button>
+      <button data-pinset="4">4</button><button data-pinset="5">5</button><button data-pinset="6">6</button>
+      <button data-pinset="7">7</button><button data-pinset="8">8</button><button data-pinset="9">9</button>
+      <button data-pinset="clear" style="background:rgba(255,69,58,.15);color:#ff453a">✕</button>
+      <button data-pinset="0">0</button>
+      <button data-pinset="back">⌫</button>
+    </div>
+    <p id="pinSetupError" style="color:#ff453a;font-size:12px;min-height:16px;margin-top:12px;font-weight:600"></p>
+  </div>
+</div>
+
+<!-- CITY -->
 <div class="dialog" id="cityDialog">
-  <div class="dlg-head"><h3>🏙️ اختر مدينتك</h3><button class="icon" onclick="closeDialog('cityDialog')">✕</button></div>
+  <div class="dlg-head">
+    <h3>اختر مدينتك</h3>
+    <button class="icon-btn" onclick="closeDialog('cityDialog')" style="width:32px;height:32px;min-height:auto;font-size:14px">✕</button>
+  </div>
   <div class="dlg-body">
     <div class="dlg-field">
       <label>المدينة</label>
@@ -382,97 +1557,107 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
         <option value="26.4207,50.0888">الدمام</option>
         <option value="21.4858,39.1925">جدة</option>
         <option value="18.2164,42.5053">أبها</option>
-        <option value="26.3260,43.9750">بريدة</option>
         <option value="29.3759,47.9774">الكويت</option>
         <option value="25.2854,51.5310">الدوحة</option>
         <option value="24.4539,54.3773">أبوظبي</option>
         <option value="25.2048,55.2708">دبي</option>
-        <option value="23.5880,58.3829">مسقط</option>
         <option value="26.0667,50.5577">المنامة</option>
-        <option value="31.9539,35.9106">عمّان</option>
-        <option value="33.5138,36.2765">دمشق</option>
-        <option value="33.3152,44.3661">بغداد</option>
+        <option value="23.5880,58.3829">مسقط</option>
         <option value="30.0444,31.2357">القاهرة</option>
-        <option value="36.8065,10.1815">تونس</option>
-        <option value="33.5731,-7.5898">الدار البيضاء</option>
-        <option value="36.7538,3.0588">الجزائر</option>
+        <option value="33.3152,44.3661">بغداد</option>
+        <option value="31.9539,35.9106">عمّان</option>
       </select>
     </div>
     <div class="dlg-field"><label>أو الإحداثيات</label><input id="manualCoords" placeholder="24.7136,46.6753" dir="ltr"></div>
   </div>
   <div class="dlg-foot">
-    <button class="pri" id="btnSaveCity">حفظ</button>
-    <button onclick="closeDialog('cityDialog')">إلغاء</button>
+    <button class="btn btn-pri" id="btnSaveCity" style="justify-content:center">حفظ</button>
+    <button class="btn btn-ghost" onclick="closeDialog('cityDialog')" style="justify-content:center;background:var(--fill);color:var(--text)">إلغاء</button>
   </div>
 </div>
 
-<div class="welcome-overlay" id="welcomeOverlay">
-  <div class="welcome-card">
-    <div class="welcome-ico">📍</div>
-    <h2>نحتاج موقعك</h2>
-    <p>لحساب <b>مواقيت الصلاة</b> و<b>عدّاد الإفطار في رمضان</b>.</p>
-    <button class="pri" id="btnAllowLocation">📍 السماح بالوصول</button>
-    <button class="ghost" id="btnManualLocation">🏙️ اختيار يدوي</button>
-    <div class="privacy">🔒 موقعك يُحفظ على جهازك فقط.</div>
+<!-- NET PANEL -->
+<div class="dialog" id="netPanel" style="width:min(94vw,400px)">
+  <div class="dlg-head">
+    <h3>محسّن الشبكة</h3>
+    <button class="icon-btn" onclick="NetworkOptimizer.closePanel()" style="width:32px;height:32px;min-height:auto;font-size:14px">✕</button>
+  </div>
+  <div class="dlg-body" style="text-align:center">
+    <div style="font-size:52px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:6px" id="netSpeedBig">—</div>
+    <div style="font-size:13px;color:var(--text-3);margin-bottom:22px;font-weight:500">ميغابت/ثانية</div>
+    <div class="stat-grid">
+      <div class="stat"><b id="netPing">—</b><span>Ping</span></div>
+      <div class="stat"><b id="netType" style="font-size:16px">—</b><span>الاتصال</span></div>
+      <div class="stat"><b id="netQuality" style="font-size:16px">—</b><span>الجودة</span></div>
+    </div>
+    <div class="dlg-note" style="margin-top:18px;text-align:right" id="netAdvice">اضغط قياس للبدء</div>
+    <button class="btn btn-pri" id="netTestBtn" style="width:100%;margin-top:14px;justify-content:center" onclick="NetworkOptimizer.runTest()">قياس السرعة</button>
   </div>
 </div>
 
-<div class="prayer-toast" id="prayerToast"><span>🕌</span><span id="prayerToastText">حان وقت الصلاة</span></div>
-
-<div class="pre-prayer-overlay" id="prePrayerOverlay">
-  <div class="pre-prayer-card">
-    <div class="pp-ico">🕌</div>
-    <h2>اقتراب وقت الصلاة</h2>
-    <p id="prePrayerName">صلاة العصر</p>
-    <div class="pp-time" id="prePrayerTime">15:25</div>
-    <div class="pp-countdown" id="prePrayerCountdown">يتبقى دقيقتان</div>
-    <button class="pp-stop" id="btnStopForPrayer">🛑 أوقف البث للصلاة</button>
-    <button class="pp-continue" id="btnContinueWatching">▶️ متابعة المشاهدة</button>
-    <button class="pp-snooze" id="btnSnoozePrayer">⏰ ذكّرني بعد دقيقة</button>
+<!-- SERIES -->
+<div class="dialog" id="seriesDialog">
+  <div class="dlg-head">
+    <h3 id="seriesTitle">المسلسل</h3>
+    <button class="icon-btn" onclick="closeDialog('seriesDialog')" style="width:32px;height:32px;min-height:auto;font-size:14px">✕</button>
   </div>
+  <div class="dlg-body" id="seriesBody"></div>
 </div>
 
 <input type="file" id="favFileInput" accept=".json" hidden>
 <div id="toast"></div>
 
 <script>
+/* ============================================================
+   AURORA — Main Script
+   ============================================================ */
 const $ = id => document.getElementById(id);
+const $$ = sel => document.querySelectorAll(sel);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
 const uid = () => Math.random().toString(36).slice(2, 10);
+
 function toast(msg, type = '', ms = 2400) {
-  const t = $('toast'); t.textContent = msg; t.className = 'show ' + type;
-  clearTimeout(t._t); t._t = setTimeout(() => t.className = '', ms);
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'show';
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.className = '', ms);
 }
+
 function fmtTime(sec) {
   if (!isFinite(sec)) return '0:00';
   sec = Math.max(0, Math.floor(sec));
   const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
   return h ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${m}:${String(s).padStart(2,'0')}`;
 }
-function hashCode(s) { let h = 0; for (let i = 0; i < s.length; i++) h = ((h << 5) - h) + s.charCodeAt(i) | 0; return Math.abs(h); }
-function gradientFor(n) {
+
+function hashCode(str) { let h = 0; for (let i = 0; i < str.length; i++) h = ((h << 5) - h) + str.charCodeAt(i) | 0; return Math.abs(h); }
+function gradientFor(name) {
   const p = [['#1e3a8a','#3b82f6'],['#7c2d12','#ea580c'],['#14532d','#22c55e'],['#581c87','#a855f7'],['#7f1d1d','#ef4444'],['#134e4a','#14b8a6'],['#4c1d95','#8b5cf6'],['#78350f','#f59e0b'],['#0c4a6e','#0ea5e9']];
-  const c = p[hashCode(n) % p.length];
+  const c = p[hashCode(name) % p.length];
   return `linear-gradient(135deg,${c[0]},${c[1]})`;
 }
 
-/* ===== State ===== */
 const state = { channels: [], live: [], movies: [], series: [], seriesMap: new Map(), favs: new Set(), history: [], playlists: [], filters: {live:'',movies:'',series:''}, search: '' };
 const video = $('videoEl');
 let hls = null, hideTimer = null, currentItem = null;
 
-function save() { try { localStorage.setItem('iptv.favs', JSON.stringify([...state.favs])); localStorage.setItem('iptv.history', JSON.stringify(state.history.slice(0,100))); localStorage.setItem('iptv.playlists', JSON.stringify(state.playlists)); } catch {} }
+function save() {
+  try {
+    localStorage.setItem('iptv.favs', JSON.stringify([...state.favs]));
+    localStorage.setItem('iptv.history', JSON.stringify(state.history.slice(0,100)));
+    localStorage.setItem('iptv.playlists', JSON.stringify(state.playlists));
+  } catch {}
+}
 function load() {
   try {
     state.favs = new Set(JSON.parse(localStorage.getItem('iptv.favs') || '[]'));
     state.history = JSON.parse(localStorage.getItem('iptv.history') || '[]');
     state.playlists = JSON.parse(localStorage.getItem('iptv.playlists') || '[]');
     const t = localStorage.getItem('iptv.theme'); if (t) setTheme(t);
-    const a = localStorage.getItem('iptv.accent'); if (a) setAccent(a);
   } catch {}
 }
 
-/* ===== Classification ===== */
 function classify(item) {
   const g = (item.group||'').toLowerCase(), u = (item.url||'').toLowerCase(), n = (item.name||'').toLowerCase();
   if (/\/series\//.test(u) || /\/serie\//.test(u)) return 'series';
@@ -489,9 +1674,9 @@ function classify(item) {
 function extractSeriesMeta(item) {
   const n = item.name || '';
   let m = n.match(/^(.*?)\s*[-_.]?\s*[Ss](\d{1,2})[\s._-]?[Ee](\d{1,3})\b/i);
-  if (m) return { series: m[1].trim() || n, season: +m[2], episode: +m[3], clean: n };
+  if (m) return { series: m[1].trim() || n, season: +m[2], episode: +m[3] };
   m = n.match(/^(.*?)\s*[-_.]?\s*(\d{1,2})x(\d{1,3})\b/i);
-  if (m) return { series: m[1].trim() || n, season: +m[2], episode: +m[3], clean: n };
+  if (m) return { series: m[1].trim() || n, season: +m[2], episode: +m[3] };
   return null;
 }
 
@@ -510,23 +1695,36 @@ function applyPlaylist(items, label) {
     }
   }
   state.channels = items; state.live = live; state.movies = movies;
-  state.series = [...seriesMap.entries()].map(([name, eps]) => ({ name, episodes: eps.sort((a,b) => { const sa = a._meta?.season||0, sb = b._meta?.season||0; if (sa!==sb) return sa-sb; return (a._meta?.episode||0)-(b._meta?.episode||0); }) }));
+  state.series = [...seriesMap.entries()].map(([name, eps]) => ({
+    name, episodes: eps.sort((a,b) => {
+      const sa = a._meta?.season||0, sb = b._meta?.season||0;
+      if (sa!==sb) return sa-sb;
+      return (a._meta?.episode||0)-(b._meta?.episode||0);
+    })
+  }));
   state.seriesMap = seriesMap;
   const pl = { id: uid(), name: label || 'قائمة', count: items.length, ts: Date.now() };
   const ex = state.playlists.findIndex(p => p.name === pl.name);
   if (ex >= 0) state.playlists[ex] = pl; else state.playlists.unshift(pl);
   save(); renderAll();
-  toast(`✅ تم تحميل ${items.length} عنصر`, 'ok', 3000);
+  toast(`تم تحميل ${items.length} عنصر`);
 }
 
-/* ============================================================
-   GeoSystem — الموقع + الصلاة + ما قبل الصلاة + رمضان
-   ============================================================ */
+const MovieDates = {
+  currentYear: new Date().getFullYear(),
+  analyze(n) {
+    const m = n.match(/\b(19\d{2}|20\d{2})\b/);
+    if (!m) return { status: 'unknown' };
+    const y = parseInt(m[1], 10);
+    if (y > this.currentYear) return { year: y, status: 'soon' };
+    if (y === this.currentYear) return { year: y, status: 'new' };
+    return { year: y, status: 'available' };
+  }
+};
+
 const GeoSystem = {
   location: null, timings: null, hijriMonth: null, isRamadan: false,
-  _shownPrePrayer: {}, // منع تكرار التنبيه لكل صلاة
-  _snoozeUntil: {}, // لتأجيل التنبيه
-  _prayerCheck: null,
+  _shownPrePrayer: {}, _snoozeUntil: {},
 
   async init() {
     const saved = this.loadLocation();
@@ -535,57 +1733,52 @@ const GeoSystem = {
       await this.loadTimings();
       this.updateUI();
       this.startCountdownLoop();
-      this.startPrayerWatcher();
       this.updateSettingsCity();
       return;
     }
     $('welcomeOverlay').classList.add('show');
     this.bindWelcomeEvents();
   },
-
-  loadLocation() { try { const s = localStorage.getItem('iptv.location'); return s ? JSON.parse(s) : null; } catch { return null; } },
+  loadLocation() { try { return JSON.parse(localStorage.getItem('iptv.location') || 'null'); } catch { return null; } },
   saveLocation(loc) { localStorage.setItem('iptv.location', JSON.stringify(loc)); this.location = loc; },
-
   bindWelcomeEvents() {
     $('btnAllowLocation').onclick = () => this.requestBrowserLocation();
     $('btnManualLocation').onclick = () => { $('welcomeOverlay').classList.remove('show'); openDialog('cityDialog'); };
     $('btnSaveCity').onclick = () => this.saveManualCity();
   },
-
   async requestBrowserLocation() {
-    const btn = $('btnAllowLocation');
-    btn.disabled = true; btn.textContent = '⏳ جاري تحديد الموقع...';
+    const btn = $('btnAllowLocation'); btn.disabled = true; btn.textContent = 'جاري التحديد...';
     try {
       if (navigator.geolocation) {
         try {
-          const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, { timeout: 12000, maximumAge: 600000 }));
-          const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude, city: 'موقعي', country: '' };
+          const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, { timeout: 12000 }));
+          const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude, city: 'موقعي' };
           await this.reverseGeocode(loc);
-          this.saveLocation(loc);
-          await this.finishSetup();
-          return;
-        } catch (e) { console.warn('geo failed', e); }
+          this.saveLocation(loc); await this.finishSetup(); return;
+        } catch {}
       }
       await this.useIpLocation();
-    } catch (e) {
-      toast('تعذّر تحديد الموقع. جرّب الاختيار اليدوي.', 'err', 4000);
-      btn.disabled = false; btn.textContent = '📍 السماح بالوصول';
+    } catch {
+      toast('تعذّر تحديد الموقع');
+      btn.disabled = false; btn.textContent = 'السماح بالوصول للموقع';
       $('welcomeOverlay').classList.remove('show');
       openDialog('cityDialog');
     }
   },
-
   async useIpLocation() {
     const svcs = [
-      { url: 'https://ipapi.co/json/', map: j => ({ lat: j.latitude, lng: j.longitude, city: j.city, country: j.country_name }) },
-      { url: 'https://ipwho.is/', map: j => ({ lat: j.latitude, lng: j.longitude, city: j.city, country: j.country }) }
+      { url: 'https://ipapi.co/json/', map: j => ({ lat: j.latitude, lng: j.longitude, city: j.city }) },
+      { url: 'https://ipwho.is/', map: j => ({ lat: j.latitude, lng: j.longitude, city: j.city }) }
     ];
     for (const s of svcs) {
-      try { const r = await fetch(s.url); if (!r.ok) continue; const j = await r.json(); const l = s.map(j); if (l.lat && l.lng) { this.saveLocation(l); await this.finishSetup(); return; } } catch {}
+      try {
+        const r = await fetch(s.url); if (!r.ok) continue;
+        const l = s.map(await r.json());
+        if (l.lat && l.lng) { this.saveLocation(l); await this.finishSetup(); return; }
+      } catch {}
     }
-    throw new Error('IP geolocation failed');
+    throw new Error('IP failed');
   },
-
   async reverseGeocode(loc) {
     try {
       const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${loc.lat}&lon=${loc.lng}&format=json&accept-language=ar`);
@@ -594,7 +1787,6 @@ const GeoSystem = {
       loc.city = j.address?.city || j.address?.town || j.address?.state || 'موقعي';
     } catch {}
   },
-
   saveManualCity() {
     const sel = $('citySelect').value, manual = $('manualCoords').value.trim();
     let lat, lng, city;
@@ -603,22 +1795,16 @@ const GeoSystem = {
     } else if (sel) {
       [lat, lng] = sel.split(',').map(parseFloat);
       city = $('citySelect').options[$('citySelect').selectedIndex].text;
-    } else { toast('اختر مدينة أو إحداثيات', 'err'); return; }
-    this.saveLocation({ lat, lng, city, country: '' });
-    closeDialog('cityDialog');
-    this.finishSetup();
+    } else { toast('اختر مدينة'); return; }
+    this.saveLocation({ lat, lng, city });
+    closeDialog('cityDialog'); this.finishSetup();
   },
-
   async finishSetup() {
     $('welcomeOverlay').classList.remove('show');
     await this.loadTimings();
-    this.updateUI();
-    this.startCountdownLoop();
-    this.startPrayerWatcher();
-    this.updateSettingsCity();
-    toast('✅ تم تحديد موقعك: ' + (this.location.city || ''), 'ok');
+    this.updateUI(); this.startCountdownLoop(); this.updateSettingsCity();
+    toast('تم تحديد موقعك');
   },
-
   async loadTimings(force = false) {
     const today = new Date().toDateString();
     const cached = localStorage.getItem('iptv.timings');
@@ -633,435 +1819,704 @@ const GeoSystem = {
     }
     try {
       const d = new Date();
-      const dateStr = `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`;
-      const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${this.location.lat}&longitude=${this.location.lng}&method=4`;
+      const ds = `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`;
+      const url = `https://api.aladhan.com/v1/timings/${ds}?latitude=${this.location.lat}&longitude=${this.location.lng}&method=4`;
       const r = await fetch(url);
-      if (!r.ok) throw new Error('HTTP ' + r.status);
+      if (!r.ok) throw new Error();
       const j = await r.json();
       this.timings = j.data.timings;
-      const hj = j.data.date?.hijri?.month?.number;
-      this.hijriMonth = hj ? parseInt(hj, 10) : this.getHijriMonth();
+      this.hijriMonth = parseInt(j.data.date?.hijri?.month?.number || this.getHijriMonth(), 10);
       this.isRamadan = this.hijriMonth === 9;
       localStorage.setItem('iptv.timings', JSON.stringify({ date: today, lat: this.location.lat, timings: this.timings, hijriMonth: this.hijriMonth }));
-    } catch (e) {
-      this.useFallbackTimings();
-    }
+    } catch { this.useFallbackTimings(); }
   },
-
   useFallbackTimings() {
     const fmt = (h, m) => `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
     this.timings = { Fajr: fmt(4,30), Sunrise: fmt(5,50), Dhuhr: fmt(11,55), Asr: fmt(15,25), Maghrib: fmt(18,20), Isha: fmt(19,45) };
     this.hijriMonth = this.getHijriMonth();
     this.isRamadan = this.hijriMonth === 9;
   },
-
   getHijriMonth() {
     try { return parseInt(new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { month: 'numeric' }).format(new Date()), 10); } catch { return 1; }
   },
-
   timeToMinutes(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; },
-
   getNextPrayer() {
     if (!this.timings) return null;
-    const now = new Date();
-    const cur = now.getHours() * 60 + now.getMinutes();
+    const now = new Date(); const cur = now.getHours()*60 + now.getMinutes();
     const list = [
-      { name: 'الفجر', key: 'Fajr', ico: '🌅' },
-      { name: 'الظهر', key: 'Dhuhr', ico: '🕛' },
-      { name: 'العصر', key: 'Asr', ico: '🌤️' },
-      { name: 'المغرب', key: 'Maghrib', ico: '🌇' },
-      { name: 'العشاء', key: 'Isha', ico: '🌙' }
+      { name:'الفجر', key:'Fajr' }, { name:'الظهر', key:'Dhuhr' },
+      { name:'العصر', key:'Asr' }, { name:'المغرب', key:'Maghrib' }, { name:'العشاء', key:'Isha' }
     ];
     for (const p of list) if (this.timings[p.key] && this.timeToMinutes(this.timings[p.key]) > cur) return { ...p, time: this.timings[p.key] };
     return { ...list[0], time: this.timings.Fajr, tomorrow: true };
   },
-
-  timeUntilNext() {
-    const next = this.getNextPrayer(); if (!next) return null;
-    const now = new Date();
-    const [h, m] = next.time.split(':').map(Number);
-    const target = new Date(now); target.setHours(h, m, 0, 0);
-    if (next.tomorrow || target <= now) target.setDate(target.getDate() + 1);
-    const diff = target - now;
-    return { hrs: Math.floor(diff/3600000), mins: Math.floor((diff%3600000)/60000), secs: Math.floor((diff%60000)/1000), target, next };
-  },
-
   updateUI() {
     if (!this.timings) return;
-    $('pillCity').textContent = this.location?.city || '';
     $('prayerPill').classList.toggle('ramadan', this.isRamadan);
     this.updatePillTime();
   },
   updatePillTime() {
-    const t = this.timeUntilNext(); if (!t) return;
-    $('pillNextName').textContent = t.next.name;
-    $('pillNextTime').textContent = this.timings[t.next.key].slice(0, 5);
+    const next = this.getNextPrayer(); if (!next) return;
+    $('pillNextName').textContent = next.name;
+    $('pillNextTime').textContent = this.timings[next.key].slice(0,5);
+    // حالة "قريباً" إذا اقترب الوقت
+    const now = new Date();
+    const cur = now.getHours()*60 + now.getMinutes();
+    const mins = this.timeToMinutes(next.time) - cur;
+    $('prayerPill').classList.toggle('soon', mins <= 10 && mins >= 0);
   },
   updateSettingsCity() {
-    const el = $('setLocationCity'); if (el && this.location) el.textContent = this.location.city || 'موقعي';
+    const el = $('setLocationCity'); if (el && this.location) el.textContent = this.location.city;
   },
-
   startCountdownLoop() {
-    if (this._cdInterval) clearInterval(this._cdInterval);
-    this._cdInterval = setInterval(() => {
+    if (this._cd) clearInterval(this._cd);
+    this._cd = setInterval(() => {
       this.updatePillTime();
-      if (this.isRamadan) this.renderRamadanUI();
-    }, 1000);
+    }, 30000);
   },
-
-  /* ============ مراقبة ما قبل الصلاة ============ */
-  startPrayerWatcher() {
-    if (this._prayerCheck) return;
-    this._prayerCheck = setInterval(() => this.checkPrayerApproaching(), 30000);
-    setTimeout(() => this.checkPrayerApproaching(), 3000);
-  },
-
-  checkPrayerApproaching() {
-    if (!this.timings) return;
-    const now = new Date();
-    const curMin = now.getHours() * 60 + now.getMinutes();
-    const prayers = [
-      { key: 'Fajr', name: 'الفجر' }, { key: 'Dhuhr', name: 'الظهر' },
-      { key: 'Asr', name: 'العصر' }, { key: 'Maghrib', name: 'المغرب' },
-      { key: 'Isha', name: 'العشاء' }
-    ];
-    for (const p of prayers) {
-      const t = this.timings[p.key];
-      if (!t) continue;
-      const prayerMin = this.timeToMinutes(t);
-      const minsUntil = prayerMin - curMin;
-
-      // 1) تنبيه قبل الصلاة بدقيقتين
-      if (minsUntil === 2) {
-        const key = `${p.key}-${new Date().toDateString()}`;
-        if (this._shownPrePrayer[key]) continue;
-        const snoozeKey = `${key}-snooze`;
-        const snoozeUntil = this._snoozeUntil[snoozeKey];
-        if (snoozeUntil && Date.now() < snoozeUntil) continue;
-        this._shownPrePrayer[key] = true;
-        this.showPrePrayerWarning(p, t);
-        return;
-      }
-
-      // 2) حان وقت الصلاة فعلاً
-      if (minsUntil === 0 && now.getSeconds() < 30) {
-        this.showPrayerToast(`حان الآن وقت صلاة ${p.name}`);
-        return;
-      }
-    }
-  },
-
-  showPrePrayerWarning(prayer, time) {
-    const overlay = $('prePrayerOverlay');
-    $('prePrayerName').textContent = `صلاة ${prayer.name}`;
-    $('prePrayerTime').textContent = time.slice(0, 5);
-    $('prePrayerCountdown').textContent = 'يتبقى دقيقتان';
-    overlay.classList.add('show');
-
-    // عدّاد تنازلي في الخلفية
-    let secondsLeft = 120;
-    if (this._preCd) clearInterval(this._preCd);
-    this._preCd = setInterval(() => {
-      secondsLeft--;
-      if (secondsLeft <= 0) {
-        clearInterval(this._preCd);
-        $('prePrayerCountdown').textContent = 'حان الآن وقت الصلاة';
-      } else if (secondsLeft < 60) {
-        $('prePrayerCountdown').textContent = `يتبقى ${secondsLeft} ثانية`;
-      } else {
-        const m = Math.floor(secondsLeft / 60), s = secondsLeft % 60;
-        $('prePrayerCountdown').textContent = `يتبقى ${m}:${String(s).padStart(2,'0')}`;
-      }
-    }, 1000);
-
-    // إيقاف الخيارات
-    const stopFn = () => {
-      overlay.classList.remove('show');
-      clearInterval(this._preCd);
-      this.stopPlaybackForPrayer();
-    };
-    const continueFn = () => {
-      overlay.classList.remove('show');
-      clearInterval(this._preCd);
-      toast('تابع المشاهدة — تقبّل الله', '', 2500);
-    };
-    const snoozeFn = () => {
-      overlay.classList.remove('show');
-      clearInterval(this._preCd);
-      // جدول تنبيه بعد 60 ثانية
-      const key = `${prayer.key}-${new Date().toDateString()}`;
-      this._snoozeUntil[`${key}-snooze`] = Date.now() + 60000;
-      this._shownPrePrayer[key] = false; // اسمح بالتكرار
-      toast('سنذكّرك بعد دقيقة', '', 2000);
-    };
-
-    $('btnStopForPrayer').onclick = stopFn;
-    $('btnContinueWatching').onclick = continueFn;
-    $('btnSnoozePrayer').onclick = snoozeFn;
-  },
-
-  stopPlaybackForPrayer() {
-    if (typeof video !== 'undefined' && video && !video.paused) {
-      try { video.pause(); } catch {}
-    }
-    this.showPrayerToast('تم إيقاف البث للصلاة — تقبّل الله');
-  },
-
-  showPrayerToast(text) {
-    $('prayerToastText').textContent = text;
-    $('prayerToast').classList.add('show');
-    setTimeout(() => $('prayerToast').classList.remove('show'), 8000);
-  },
-
-  /* ============ رمضان ============ */
-  renderRamadanUI() {
-    if (!this.isRamadan) return;
-    const iftarEl = $('ramIftarTime'), suhoorEl = $('ramSuhoorTime');
-    if (!iftarEl || !suhoorEl) return;
-    const maghrib = this.timings.Maghrib, fajr = this.timings.Fajr;
-    const now = new Date();
-    const curSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-    const [mh, mm] = maghrib.split(':').map(Number);
-    let iftarDiff = (mh * 3600 + mm * 60) - curSec;
-    if (iftarDiff < 0) iftarDiff += 86400;
-    iftarEl.textContent = this.fmtCountdown(iftarDiff);
-    if ($('ramIftarExact')) $('ramIftarExact').textContent = 'المغرب ' + maghrib.slice(0,5);
-    const [fh, fm] = fajr.split(':').map(Number);
-    let suhoorDiff = (fh * 3600 + fm * 60) - curSec;
-    if (suhoorDiff < 0) suhoorDiff += 86400;
-    suhoorEl.textContent = this.fmtCountdown(suhoorDiff);
-    if ($('ramSuhoorExact')) $('ramSuhoorExact').textContent = 'الفجر ' + fajr.slice(0,5);
-  },
-  fmtCountdown(sec) {
-    const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), s = sec%60;
-    return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  },
-
   showTimings() {
     if (!this.timings) return;
     const list = [
-      { k:'Fajr', n:'الفجر', i:'🌅' }, { k:'Sunrise', n:'الشروق', i:'☀️' },
-      { k:'Dhuhr', n:'الظهر', i:'🕛' }, { k:'Asr', n:'العصر', i:'🌤️' },
-      { k:'Maghrib', n:'المغرب', i:'🌇' }, { k:'Isha', n:'العشاء', i:'🌙' }
+      {k:'Fajr',n:'الفجر',i:'◐'},{k:'Sunrise',n:'الشروق',i:'○'},{k:'Dhuhr',n:'الظهر',i:'●'},
+      {k:'Asr',n:'العصر',i:'◑'},{k:'Maghrib',n:'المغرب',i:'◒'},{k:'Isha',n:'العشاء',i:'◓'}
     ];
     const next = this.getNextPrayer();
     const html = list.map(p => `
-      <div class="settings-row">
-        <div class="ic">${p.i}</div>
-        <div class="txt"><b>${p.n}</b><small>${next && next.key === p.k ? '← التالية' : ''}</small></div>
-        <div style="font-size:15px;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums">${this.timings[p.k].slice(0,5)}</div>
-      </div>
-    `).join('');
+      <div class="prayer-row ${next && next.key===p.k ? 'next' : ''}">
+        <div class="pr-name"><span class="pr-ico">${p.i}</span>${p.n}</div>
+        <div class="pr-time">${this.timings[p.k].slice(0,5)}</div>
+      </div>`).join('');
     const hijriName = this.hijriMonth === 9 ? 'رمضان' : `الشهر ${this.hijriMonth}`;
     $('timingsBody').innerHTML = `
-      <div style="text-align:center;margin-bottom:12px;padding:10px;background:var(--panel2);border-radius:10px">
-        <div style="font-size:12px;color:var(--mut)">📍 ${this.location.city}</div>
-        <div style="font-size:14px;font-weight:700;margin-top:3px">${hijriName}</div>
+      <div style="text-align:center;padding:8px 12px 14px">
+        <div style="font-size:12px;color:var(--text-3);font-weight:500">${this.location.city}</div>
+        <div style="font-size:15px;font-weight:700;margin-top:3px;letter-spacing:-.02em">${hijriName}</div>
       </div>
-      <div class="settings-list">${html}</div>
-      <div class="dlg-note" style="margin-top:12px">🕌 طريقة الحساب: أم القرى — مكة المكرمة</div>
-    `;
+      ${html}`;
     openDialog('timingsDialog');
   }
 };
 
-/* ===== Movie Dates ===== */
-const MovieDates = {
-  currentYear: new Date().getFullYear(),
-  extractYear(n) { const m = n.match(/\b(19\d{2}|20\d{2})\b/); return m ? parseInt(m[1], 10) : null; },
-  analyze(n) {
-    const y = this.extractYear(n);
-    if (!y) return { year: null, status: 'unknown', label: '' };
-    if (y > this.currentYear) return { year: y, status: 'soon', label: `قريباً ${y}` };
-    if (y === this.currentYear) return { year: y, status: 'new', label: `جديد ${y}` };
-    return { year: y, status: 'available', label: `${y}` };
-  }
-};
-
-/* ===== Ramadan Series ===== */
-const RamadanSeries = {
-  keywords: ['رمضان','رمضاني','مسلسل رمضان','دراما رمضان','ramadan series','mosalsal ramadan'],
-  isMatch(item) {
-    const n = (item.name || '').toLowerCase(), g = (item.group || '').toLowerCase();
-    return this.keywords.some(k => n.includes(k) || g.includes(k));
+const PlayerEngine = {
+  current: localStorage.getItem('iptv.engine') || 'hlsjs',
+  prefs: JSON.parse(localStorage.getItem('iptv.playerPrefs') || '{}'),
+  init() {
+    $$('#engineGrid .engine-card').forEach(c => {
+      c.classList.toggle('on', c.dataset.engine === this.current);
+      c.onclick = () => this.switchTo(c.dataset.engine);
+    });
+    const qEl = $('setQuality');
+    if (qEl) { qEl.value = this.prefs.quality || 'auto'; qEl.onchange = () => this.setPref('quality', qEl.value); }
+    $('toggleLowLatency')?.classList.toggle('on', !!this.prefs.lowLatency);
   },
-  findNowPlaying() {
-    if (!GeoSystem.isRamadan || !GeoSystem.timings) return [];
-    const results = [];
-    for (const ch of state.live) {
-      const n = ch.name.toLowerCase(), g = (ch.group || '').toLowerCase();
-      if (/رمضان|ramadan|mosalsal/.test(n) || /رمضان|ramadan/.test(g)) {
-        results.push({ channel: ch, scheduleTime: GeoSystem.timings.Maghrib });
-      }
+  switchTo(engine) {
+    this.current = engine;
+    localStorage.setItem('iptv.engine', engine);
+    $$('#engineGrid .engine-card').forEach(c => c.classList.toggle('on', c.dataset.engine === engine));
+    toast('تم التبديل');
+    if (currentItem) { const url = currentItem.url; setTimeout(() => playItem(url), 300); }
+  },
+  setPref(k, v) { this.prefs[k] = v; localStorage.setItem('iptv.playerPrefs', JSON.stringify(this.prefs)); toast('تم الحفظ'); },
+  async play(url, videoEl) {
+    if (window._hls) { try { window._hls.destroy(); } catch {} window._hls = null; }
+    videoEl.removeAttribute('src'); try { videoEl.load(); } catch {}
+    const isHls = /\.m3u8(\?|#|$)/i.test(url) || /m3u8/i.test(url);
+    const native = videoEl.canPlayType('application/vnd.apple.mpegurl') !== '';
+    let engine = this.current;
+    if (engine === 'auto') engine = (isHls && native) ? 'native' : 'hlsjs';
+    if (engine === 'native' && isHls && native) {
+      videoEl.src = url; videoEl.play().catch(()=>{});
+      return { engine: 'native' };
     }
-    return results;
+    if (engine === 'shaka') {
+      try {
+        await this.ensureShaka();
+        const player = new shaka.Player();
+        await player.attach(videoEl);
+        await player.load(url);
+        window._shaka = player;
+        videoEl.play().catch(()=>{});
+        return { engine: 'shaka', player };
+      } catch (e) { console.warn('Shaka failed', e); engine = 'hlsjs'; }
+    }
+    if (isHls && !native && window.Hls && Hls.isSupported()) {
+      const config = { maxBufferLength: 30, backBufferLength: 30, lowLatencyMode: !!this.prefs.lowLatency, enableWorker: true, fragLoadingMaxRetry: 6, manifestLoadingMaxRetry: 4 };
+      const hls = new Hls(config);
+      window._hls = hls; window.hls = hls;
+      hls.loadSource(url); hls.attachMedia(videoEl);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => { this.applyQuality(hls); videoEl.play().catch(()=>{}); });
+      return { engine: 'hlsjs', hls };
+    }
+    videoEl.src = url; videoEl.play().catch(()=>{});
+    return { engine: 'fallback' };
+  },
+  applyQuality(hls) {
+    const p = this.prefs.quality || 'auto';
+    if (p === 'auto') { hls.currentLevel = -1; return; }
+    const maxH = parseInt(p, 10);
+    const valid = hls.levels.map((l, i) => ({ i, h: l.height })).filter(x => x.h <= maxH);
+    if (valid.length) hls.currentLevel = valid.reduce((a, b) => b.h > a.h ? b : a).i;
+  },
+  async ensureShaka() {
+    if (window.shaka) return;
+    return new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = 'https://ajax.googleapis.com/ajax/libs/shaka-player/4.7.11/shaka-player.compiled.js';
+      s.onload = () => { window.shaka = true; res(); };
+      s.onerror = rej;
+      document.head.appendChild(s);
+    });
   }
 };
 
-/* ===== Render ===== */
+const ServerManager = {
+  servers: JSON.parse(localStorage.getItem('iptv.servers') || '[]'),
+  autoFailover: localStorage.getItem('iptv.autoFailover') !== 'false',
+  failoverAttempts: 0, lastFailover: 0,
+  init() {
+    this.render();
+    $('toggleFailover')?.classList.toggle('on', this.autoFailover);
+  },
+  add() {
+    const name = $('newServerName').value.trim(), url = $('newServerUrl').value.trim();
+    if (!name || !url) return toast('أكمل الحقول');
+    if (!/^https?:\/\//i.test(url)) return toast('الرابط يجب أن يبدأ بـ http');
+    this.servers.push({ id: 'srv_' + Date.now(), name, url, status: 'unknown', latency: null, priority: this.servers.length });
+    this.save(); this.render();
+    $('newServerName').value = ''; $('newServerUrl').value = '';
+    toast('تم الإضافة');
+  },
+  remove(id) {
+    if (!confirm('حذف السيرفر؟')) return;
+    this.servers = this.servers.filter(s => s.id !== id);
+    this.save(); this.render();
+  },
+  makePrimary(id) {
+    const s = this.servers.find(x => x.id === id); if (!s) return;
+    this.servers = [s, ...this.servers.filter(x => x.id !== id)];
+    this.servers.forEach((sv, i) => sv.priority = i);
+    this.save(); this.render();
+    toast(`${s.name} أصبح الأساسي`);
+  },
+  save() { localStorage.setItem('iptv.servers', JSON.stringify(this.servers)); },
+  setAutoFailover(on) {
+    this.autoFailover = on;
+    localStorage.setItem('iptv.autoFailover', on);
+    toast(on ? 'التبديل التلقائي مُفعّل' : 'تم الإيقاف');
+  },
+  render() {
+    const el = $('serverList'); if (!el) return;
+    if (!this.servers.length) { el.innerHTML = `<div style="padding:14px;text-align:center;color:var(--text-3);font-size:12px">لا سيرفرات</div>`; return; }
+    el.innerHTML = this.servers.map((s, i) => {
+      const cls = s.status === 'ok' ? '' : s.status === 'slow' ? 'slow' : s.status === 'down' ? 'down' : '';
+      return `<div class="server-item ${i === 0 ? 'primary' : ''}">
+        <div class="s-status ${cls}"></div>
+        <div class="s-info">
+          <b>${esc(s.name)} ${i === 0 ? '★' : ''}</b>
+          <small><span>${s.latency ? s.latency + 'ms' : '—'}</span></small>
+        </div>
+        <div class="s-actions">
+          <button onclick="ServerManager.makePrimary('${s.id}')">★</button>
+          <button onclick="ServerManager.remove('${s.id}')" style="color:#ff453a">✕</button>
+        </div>
+      </div>`;
+    }).join('');
+  },
+  async testAll() {
+    if (!this.servers.length) return toast('لا سيرفرات');
+    toast('جاري الاختبار...', '', 1500);
+    for (const s of this.servers) {
+      s.status = 'testing'; this.render();
+      try {
+        const t0 = performance.now();
+        const ctl = new AbortController();
+        const timer = setTimeout(() => ctl.abort(), 5000);
+        await fetch(s.url, { method: 'HEAD', mode: 'no-cors', signal: ctl.signal });
+        clearTimeout(timer);
+        const lat = Math.round(performance.now() - t0);
+        s.latency = lat;
+        s.status = lat < 500 ? 'ok' : 'slow';
+      } catch { s.status = 'down'; s.latency = null; }
+      this.render();
+    }
+    this.save();
+    toast('انتهى الاختبار');
+  },
+  getNext(currentId) {
+    const idx = this.servers.findIndex(s => s.id === currentId);
+    if (idx < 0) return this.servers[1] || null;
+    for (let i = 1; i < this.servers.length; i++) {
+      const next = this.servers[(idx + i) % this.servers.length];
+      if (next.status !== 'down') return next;
+    }
+    return null;
+  },
+  onStreamError() {
+    if (!this.autoFailover) return false;
+    if (this.servers.length < 2) return false;
+    const now = Date.now();
+    if (now - this.lastFailover < 10000) return false;
+    if (this.failoverAttempts >= 3) { toast('فشل كل السيرفرات'); this.failoverAttempts = 0; return false; }
+    this.lastFailover = now; this.failoverAttempts++;
+    const next = this.getNext(this.servers[0]?.id);
+    if (!next) return false;
+    $('failoverText').textContent = `التحويل إلى ${next.name}`;
+    $('failoverBanner').classList.add('show');
+    setTimeout(() => {
+      $('failoverBanner').classList.remove('show');
+    }, 1500);
+    return true;
+  }
+};
+
+const PINLock = {
+  pinHash: localStorage.getItem('iptv.pinHash'),
+  appLock: localStorage.getItem('iptv.appLock') === 'true',
+  kidsMode: localStorage.getItem('iptv.kidsMode') === 'true',
+  _input: '', _setup: '', _step: 1, _callback: null, _firstPin: null,
+  init() {
+    $$('[data-pin]').forEach(b => b.onclick = () => this.handleInput(b.dataset.pin));
+    $$('[data-pinset]').forEach(b => b.onclick = () => this.handleSetup(b.dataset.pinset));
+    this.renderStatus();
+    $('toggleAppLock')?.classList.toggle('on', this.appLock);
+    $('toggleKidsMode')?.classList.toggle('on', this.kidsMode);
+    if (this.appLock && this.pinHash) setTimeout(() => this.prompt('أدخل الرمز', () => {}, true), 500);
+  },
+  hash(str) { let h = 0; for (let i = 0; i < str.length; i++) h = ((h << 5) - h) + str.charCodeAt(i) | 0; return Math.abs(h).toString(36); },
+  hasPin() { return !!this.pinHash; },
+  setPin(p) { this.pinHash = this.hash(p); localStorage.setItem('iptv.pinHash', this.pinHash); this.renderStatus(); toast('تم الحفظ'); },
+  verify(p) { return this.hash(p) === this.pinHash; },
+  clearPin() {
+    if (!confirm('حذف الرمز؟')) return;
+    this.pinHash = null; localStorage.removeItem('iptv.pinHash');
+    this.appLock = false; localStorage.setItem('iptv.appLock', 'false');
+    $('toggleAppLock')?.classList.remove('on');
+    this.renderStatus(); toast('تم الحذف');
+  },
+  renderStatus() {
+    const el = $('pinStatus'); if (!el) return;
+    if (!this.hasPin()) {
+      el.innerHTML = `<div class="pin-lock-display">
+        <div class="lock-ico">○</div><h3>لا يوجد رمز</h3>
+        <p>أضف رمزاً لحماية الإعدادات</p>
+        <button class="btn btn-pri" style="width:100%;margin-top:16px;justify-content:center" onclick="PINLock.startSetup()">إعداد رمز</button>
+      </div>`;
+    } else {
+      el.innerHTML = `<div class="pin-lock-display">
+        <div class="lock-ico" style="color:var(--accent)">●</div><h3>الرمز مُفعّل</h3>
+        <p>الإعدادات محمية</p>
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <button class="btn btn-pri" style="flex:1;justify-content:center" onclick="PINLock.startSetup()">تغيير</button>
+          <button class="btn btn-ghost" style="flex:1;justify-content:center;background:var(--fill);color:#ff453a" onclick="PINLock.clearPin()">حذف</button>
+        </div>
+      </div>`;
+    }
+  },
+  prompt(title, cb, blocking = false) {
+    this._input = ''; this._callback = cb;
+    $('pinDialogTitle').textContent = title;
+    $('pinDialogSub').textContent = blocking ? 'مطلوب للمتابعة' : 'أدخل الرمز';
+    $('pinError').textContent = '';
+    this.updateDisplay('pinDisplay', '');
+    openDialog('pinDialog');
+  },
+  closePinDialog() { closeDialog('pinDialog'); this._input = ''; this._callback = null; },
+  handleInput(v) {
+    if (v === 'clear') this._input = '';
+    else if (v === 'back') this._input = this._input.slice(0, -1);
+    else if (this._input.length < 4) this._input += v;
+    this.updateDisplay('pinDisplay', this._input);
+    if (this._input.length === 4) {
+      setTimeout(() => {
+        if (this.verify(this._input)) {
+          const cb = this._callback; this.closePinDialog();
+          if (cb) cb();
+        } else {
+          $('pinError').textContent = 'رمز خاطئ';
+          this._input = ''; this.updateDisplay('pinDisplay', '');
+        }
+      }, 200);
+    }
+  },
+  startSetup() {
+    this._setup = ''; this._step = 1; this._firstPin = null;
+    $('pinSetupSub').textContent = 'اختر 4 أرقام';
+    $('pinSetupError').textContent = '';
+    this.updateDisplay('pinSetupDisplay', '');
+    openDialog('pinSetupDialog');
+  },
+  handleSetup(v) {
+    if (v === 'clear') this._setup = '';
+    else if (v === 'back') this._setup = this._setup.slice(0, -1);
+    else if (this._setup.length < 4) this._setup += v;
+    this.updateDisplay('pinSetupDisplay', this._setup);
+    if (this._setup.length === 4) {
+      setTimeout(() => {
+        if (this._step === 1) {
+          this._firstPin = this._setup; this._step = 2; this._setup = '';
+          $('pinSetupSub').textContent = 'أعد الإدخال';
+          this.updateDisplay('pinSetupDisplay', '');
+        } else {
+          if (this._setup === this._firstPin) {
+            this.setPin(this._setup); closeDialog('pinSetupDialog');
+          } else {
+            $('pinSetupError').textContent = 'الرمزان مختلفان';
+            this._step = 1; this._setup = ''; this._firstPin = null;
+            $('pinSetupSub').textContent = 'اختر 4 أرقام';
+            this.updateDisplay('pinSetupDisplay', '');
+          }
+        }
+      }, 200);
+    }
+  },
+  updateDisplay(id, val) {
+    const el = $(id); if (!el) return;
+    el.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('filled', i < val.length));
+  },
+  toggleAppLock(el) {
+    if (!this.hasPin()) { toast('أضف رمزاً أولاً'); el.classList.remove('on'); return; }
+    this.appLock = !this.appLock;
+    localStorage.setItem('iptv.appLock', this.appLock);
+    el.classList.toggle('on', this.appLock);
+    toast(this.appLock ? 'يُطلب الرمز عند الفتح' : 'تم الإيقاف');
+  },
+  toggleKidsMode(el) {
+    if (!this.hasPin()) { toast('أضف رمزاً أولاً'); el.classList.remove('on'); return; }
+    this.kidsMode = !this.kidsMode;
+    localStorage.setItem('iptv.kidsMode', this.kidsMode);
+    el.classList.toggle('on', this.kidsMode);
+    toast(this.kidsMode ? 'وضع الأطفال مُفعّل' : 'تم الإيقاف');
+  }
+};
+
+const VoiceAssistant = {
+  recognition: null, listening: false, synth: window.speechSynthesis,
+  init() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { $('voiceFab').style.display = 'none'; return; }
+    this.recognition = new SR();
+    this.recognition.lang = 'ar-SA';
+    this.recognition.continuous = false;
+    this.recognition.interimResults = true;
+    this.recognition.onstart = () => {
+      this.listening = true; $('voiceFab').classList.add('listening');
+      $('voiceTranscript').textContent = 'جاري الاستماع...';
+      $('voiceResponse').textContent = '';
+    };
+    this.recognition.onresult = (e) => {
+      let interim = '', final = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const r = e.results[i];
+        if (r.isFinal) final += r[0].transcript; else interim += r[0].transcript;
+      }
+      $('voiceTranscript').textContent = final || interim || '...';
+      if (final) this.handle(final.trim());
+    };
+    this.recognition.onerror = (e) => {
+      this.listening = false; $('voiceFab').classList.remove('listening');
+      const errs = { 'not-allowed':'يجب السماح بالميكروفون', 'no-speech':'لم أسمع شيئاً' };
+      $('voiceResponse').textContent = errs[e.error] || e.error;
+    };
+    this.recognition.onend = () => { this.listening = false; $('voiceFab').classList.remove('listening'); };
+    $('voiceFab').onclick = () => this.toggle();
+  },
+  toggle() {
+    if (this.listening) this.recognition.stop();
+    else { $('voicePanel').classList.add('open'); try { this.recognition.start(); } catch {} }
+  },
+  close() { $('voicePanel').classList.remove('open'); if (this.listening) this.recognition.stop(); },
+  quickTry(t) { $('voiceTranscript').textContent = t; this.handle(t); },
+  speak(text) {
+    if (!this.synth) return;
+    try { this.synth.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'ar-SA'; this.synth.speak(u); } catch {}
+  },
+  reply(text, speak = true) { $('voiceResponse').textContent = text; if (speak) this.speak(text); },
+  handle(cmd) {
+    const c = cmd.toLowerCase().trim();
+    if (/^شغل|^افتح/.test(c)) return this.playQuery(cmd.replace(/^(شغل|افتح)\s*/, '').trim());
+    if (/يوتيوب/.test(c)) {
+      const m = cmd.match(/شغل\s+(.+?)\s+(على|في)\s+يوتيوب/i);
+      if (m) return YouTube.searchAndOpen(m[1].trim());
+      if (/افتح|ادخل/.test(c)) { closeDialog('settingsDialog'); openDialog('ytDialog'); return this.reply('تم فتح يوتيوب'); }
+    }
+    if (/سرعة|شبكة|نت/.test(c)) { this.reply('جاري القياس'); NetworkOptimizer.runTest(); return; }
+    if (/صلاة|صلاه|اذان/.test(c)) {
+      if (!GeoSystem.timings) return this.reply('لم يُحدد موقعك');
+      const n = GeoSystem.getNextPrayer();
+      return this.reply(`الصلاة القادمة ${n.name} الساعة ${GeoSystem.timings[n.key].slice(0,5)}`);
+    }
+    if (/ارفع|علي/.test(c)) { video.volume = Math.min(1, (video.volume||1) + 0.2); return this.reply('تم'); }
+    if (/اخفض|نزل/.test(c)) { video.volume = Math.max(0, (video.volume||1) - 0.2); return this.reply('تم'); }
+    if (/اكتم|كتم/.test(c)) { video.muted = !video.muted; return this.reply(video.muted ? 'مكتوم' : 'غير مكتوم'); }
+    if (/^وقف|^ايقاف/.test(c)) { video.pause(); return this.reply('تم الإيقاف'); }
+    if (/^كمل|^واصل/.test(c)) { video.play(); return this.reply('تم الاستئناف'); }
+    if (/خروج|اطلع/.test(c)) { closePlayer(); return this.reply('تم'); }
+    if (/مفضل/.test(c)) { switchView('favorites'); return this.reply('المفضلة'); }
+    if (/افلام/.test(c)) { switchView('movies'); return this.reply('الأفلام'); }
+    if (/مسلسلات/.test(c)) { switchView('series'); return this.reply('المسلسلات'); }
+    if (/قنوات|مباشر/.test(c)) { switchView('live'); return this.reply('القنوات'); }
+    this.reply('جرب: شغل [اسم]، افتح يوتيوب، سرعة النت');
+  },
+  playQuery(q) {
+    if (!q) return this.reply('لم أسمع اسم المحتوى');
+    const ql = q.toLowerCase();
+    const candidates = [
+      ...state.live.map(c => ({ item: c, score: this.score(c.name, ql) })),
+      ...state.movies.map(c => ({ item: c, score: this.score(c.name, ql) })),
+      ...state.series.flatMap(s => s.episodes.map(e => ({ item: e, score: this.score(e.name, ql) })))
+    ].sort((a, b) => b.score - a.score);
+    if (!candidates.length || candidates[0].score < 0.3) {
+      this.reply(`لم أجد "${q}"`);
+      return YouTube.searchAndOpen(q);
+    }
+    const best = candidates[0];
+    this.reply(`أشغل ${best.item.name}`);
+    setTimeout(() => playItem(best.item.url), 600);
+    this.close();
+  },
+  score(name, q) {
+    const n = name.toLowerCase();
+    if (n === q) return 1;
+    if (n.includes(q)) return 0.8;
+    const words = q.split(/\s+/); let m = 0;
+    for (const w of words) if (n.includes(w)) m++;
+    return m / words.length * 0.7;
+  }
+};
+
+const YouTube = {
+  init() {
+    $('ytSearchBtn').onclick = () => this.handleSearch();
+    $('ytQuery').onkeydown = (e) => { if (e.key === 'Enter') this.handleSearch(); };
+    $('ytClose').onclick = () => this.close();
+  },
+  handleSearch() {
+    const q = $('ytQuery').value.trim(); if (!q) return;
+    const id = this.extractId(q);
+    if (id) return this.open(id);
+    window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(q), '_blank');
+    toast('فُتح يوتيوب في تاب');
+  },
+  searchAndOpen(q) {
+    window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(q), '_blank');
+    toast(`بحث: ${q}`);
+  },
+  extractId(input) {
+    let m = input.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    if (m) return m[1];
+    if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
+    m = input.match(/[?&]list=([a-zA-Z0-9_-]+)/);
+    if (m) return 'list:' + m[1];
+    return null;
+  },
+  open(id) {
+    const src = id.startsWith('list:')
+      ? `https://www.youtube.com/embed/videoseries?list=${id.slice(5)}&autoplay=1`
+      : `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1`;
+    $('ytFrame').src = src;
+    $('ytPlayerModal').classList.add('open');
+    closeDialog('ytDialog');
+    if (!video.paused) video.pause();
+  },
+  close() { $('ytPlayerModal').classList.remove('open'); $('ytFrame').src = ''; }
+};
+
+const NetworkOptimizer = {
+  speed: null, ping: null, bufferSamples: [], lastAdjust: 0,
+  init() {
+    setTimeout(() => this.quick(), 3000);
+    setInterval(() => this.monitor(), 2000);
+    setInterval(() => this.quick(), 30000);
+  },
+  quick() {
+    const c = navigator.connection;
+    if (c?.downlink) { this.speed = c.downlink; this.updateBadge(); }
+    if (window._hls?.bandwidthEstimate) {
+      const bw = window._hls.bandwidthEstimate / 1000000;
+      if (bw > 0) { this.speed = bw; this.updateBadge(); }
+    }
+  },
+  async runTest() {
+    const btn = $('netTestBtn'); btn.disabled = true; btn.textContent = 'جاري القياس...';
+    $('netSpeedBig').textContent = '...';
+    try {
+      const t0 = performance.now();
+      await fetch('https://speed.cloudflare.com/__down?bytes=1000', { cache: 'no-store' });
+      this.ping = Math.round(performance.now() - t0);
+      const dlT0 = performance.now();
+      const r = await fetch('https://speed.cloudflare.com/__down?bytes=5000000', { cache: 'no-store' });
+      const blob = await r.blob();
+      const sec = (performance.now() - dlT0) / 1000;
+      this.speed = Math.round((blob.size * 8) / (sec * 1000000) * 10) / 10;
+    } catch { this.speed = navigator.connection?.downlink || 0; }
+    this.evaluate();
+    btn.disabled = false; btn.textContent = 'قياس السرعة';
+  },
+  evaluate() {
+    const s = this.speed || 0, p = this.ping || 0;
+    $('netSpeedBig').textContent = s.toFixed(1);
+    $('netSpeedMini').textContent = s.toFixed(1);
+    $('netPing').textContent = p || '—';
+    const typeMap = { '4g':'4G/5G', '3g':'3G', '2g':'2G', 'slow-2g':'ضعيف' };
+    $('netType').textContent = typeMap[navigator.connection?.effectiveType] || 'WiFi';
+    let q, adv, cls = '';
+    if (s >= 25) { q = '4K'; adv = '<b style="color:var(--ok)">ممتاز</b> — 4K بسلاسة'; }
+    else if (s >= 10) { q = '1080p'; adv = '<b style="color:var(--ok)">جيد</b> — 1080p مثالي'; }
+    else if (s >= 5) { q = '720p'; adv = '<b style="color:var(--warn)">متوسط</b> — استخدم 720p'; cls = 'warn'; }
+    else if (s >= 2) { q = '480p'; adv = '<b style="color:var(--warn)">ضعيف</b> — اقترب من الراوتر'; cls = 'warn'; }
+    else { q = 'منخفض'; adv = '<b style="color:var(--err)">سيء</b> — استخدم 4G/5G'; cls = 'bad'; }
+    $('netQuality').textContent = q;
+    $('netAdvice').innerHTML = adv;
+    $('netBadge').className = 'net-badge ' + cls;
+    if (s < 5 && window._hls && currentItem) this.forceLow();
+  },
+  forceLow() {
+    if (!window._hls?.levels) return;
+    const low = window._hls.levels.reduce((m, l, i) => l.height < window._hls.levels[m].height ? i : m, 0);
+    window._hls.currentLevel = low;
+    $('aqText').textContent = 'خُفّضت الجودة';
+    $('autoQualityPill').classList.add('show');
+    setTimeout(() => $('autoQualityPill').classList.remove('show'), 3000);
+  },
+  updateBadge() { if (this.speed) $('netSpeedMini').textContent = this.speed.toFixed(1); },
+  monitor() {
+    if (!window._hls || video.paused) return;
+    try {
+      const buf = video.buffered;
+      if (!buf.length) return;
+      const ahead = buf.end(buf.length - 1) - video.currentTime;
+      this.bufferSamples.push(ahead);
+      if (this.bufferSamples.length > 5) this.bufferSamples.shift();
+      const now = Date.now();
+      if (now - this.lastAdjust < 8000) return;
+      const avg = this.bufferSamples.reduce((a, b) => a + b, 0) / this.bufferSamples.length;
+      if (avg < 3 && window._hls.currentLevel === -1) { this.forceLow(); this.lastAdjust = now; }
+    } catch {}
+  },
+  openPanel() { openDialog('netPanel'); },
+  closePanel() { closeDialog('netPanel'); }
+};
+
+/* ============ RENDER ============ */
 function cardHTML(item, type) {
   const fav = state.favs.has(item.url);
   const cover = item.logo;
   const bg = cover ? `background-image:url('${esc(cover)}');background-size:cover;background-position:center` : `background:${gradientFor(item.name)}`;
   const isLive = type === 'live';
-  const movieInfo = type === 'movie' ? MovieDates.analyze(item.name) : null;
-  let badgeHTML = '';
-  if (isLive) badgeHTML = '<div class="badge live">● مباشر</div>';
-  else if (movieInfo && movieInfo.status === 'soon') badgeHTML = '<div class="badge soon">⏳ قريباً</div>';
-  else if (movieInfo && movieInfo.status === 'new') badgeHTML = '<div class="badge new">✨ جديد</div>';
-
-  let releaseHTML = '';
-  if (movieInfo && movieInfo.status !== 'unknown') {
-    const cls = movieInfo.status === 'soon' ? 'soon' : movieInfo.status === 'available' ? 'avail' : '';
-    const ico = movieInfo.status === 'soon' ? '📅' : movieInfo.status === 'new' ? '🆕' : '✅';
-    const txt = movieInfo.status === 'soon' ? `يُعرض في ${movieInfo.year}` : movieInfo.status === 'new' ? 'متوفر الآن' : `متوفر منذ ${MovieDates.currentYear - movieInfo.year} سنة`;
-    releaseHTML = `<div class="release-info ${cls}">${ico}<span>${txt}</span></div>`;
+  const mi = type === 'movie' ? MovieDates.analyze(item.name) : null;
+  let badge = '';
+  if (isLive) badge = '<div class="badge live">مباشر</div>';
+  else if (mi?.status === 'soon') badge = '<div class="badge soon">قريباً</div>';
+  else if (mi?.status === 'new') badge = '<div class="badge new">جديد</div>';
+  let rel = '';
+  if (mi && mi.status !== 'unknown') {
+    const cls = mi.status === 'soon' ? 'soon' : mi.status === 'available' ? 'avail' : '';
+    const txt = mi.status === 'soon' ? `يُعرض ${mi.year}` : mi.status === 'new' ? 'متوفر' : `${mi.year}`;
+    rel = `<div class="release-info ${cls}">${txt}</div>`;
   }
-
-  return `
-    <div class="card ${isLive ? 'wide' : ''} ${movieInfo && movieInfo.status === 'soon' ? 'coming-soon' : ''}" onclick="playItem('${esc(item.url)}')">
-      <div class="poster" style="${bg}">
-        ${cover ? '' : `<div class="fallback" style="position:absolute;inset:0;display:grid;place-items:center">${esc(item.name.charAt(0))}</div>`}
-        ${badgeHTML}
-        <button class="fav-btn ${fav ? 'on' : ''}" onclick="event.stopPropagation();toggleFav('${esc(item.url)}', this)">${fav ? '★' : '☆'}</button>
-        <div class="play-ov"><div class="pl">▶</div></div>
-      </div>
-      <div class="info"><h3>${esc(item.name)}</h3><span class="sub">${esc(item.group || 'عام')}</span>${releaseHTML}</div>
+  return `<div class="card ${isLive ? 'wide' : ''}" tabindex="0" onclick="playItem('${esc(item.url)}')">
+    <div class="poster" style="${bg}">
+      ${cover ? '' : `<div class="fallback" style="position:absolute;inset:0;display:grid;place-items:center">${esc((item.name||'?').charAt(0))}</div>`}
+      ${badge}
+      <button class="fav-btn ${fav ? 'on' : ''}" onclick="event.stopPropagation();toggleFav('${esc(item.url)}',this)">${fav ? '★' : '☆'}</button>
+      <div class="play-ov"><div class="pl">▶</div></div>
     </div>
-  `;
+    <div class="info"><h3>${esc(item.name)}</h3><span class="sub">${esc(item.group || 'عام')}</span>${rel}</div>
+  </div>`;
 }
 
 function renderHome() {
   const el = $('homeContent');
   if (!state.channels.length) {
-    el.innerHTML = `
-      <div class="hero"><div class="hero-content">
-        <div class="hero-tag">ابدأ الآن</div>
-        <h1>مرحباً بك في Prime IPTV 🎬</h1>
-        <p>مشغّل احترافي يدعم البث المباشر والأفلام والمسلسلات.</p>
-        <button class="pri" onclick="openDialog('playlistDialog')">📚 إضافة قائمة</button>
-      </div></div>
-      <div class="empty"><span class="ico">📺</span><h3>لا يوجد محتوى</h3><p>اضغط إضافة قائمة للبدء</p></div>
-    `;
+    el.innerHTML = `<div class="hero">
+      <div class="hero-content">
+        <div class="hero-tag">ابدأ</div>
+        <h1>مرحباً بك في AURORA</h1>
+        <p>مشغّل احترافي للبث المباشر والأفلام والمسلسلات.</p>
+        <button class="btn btn-pri" onclick="openDialog('playlistDialog')">إضافة قائمة</button>
+        <button class="btn btn-ghost" onclick="openSettings()">الإعدادات</button>
+      </div>
+    </div>
+    <div class="empty"><div class="ico">◯</div><h3>لا يوجد محتوى</h3><p>أضف قائمة M3U للبدء</p></div>`;
     return;
   }
   let html = '';
-
-  // بانر رمضان
+  // رمضان
   if (GeoSystem.isRamadan && GeoSystem.timings) {
-    html += `<div class="ramadan-hero">
-      <div class="ram-lanterns">🏮 🏮 🏮 🏮 🏮</div>
-      <div class="ram-content">
-        <div class="ram-title">🌙 رمضان مبارك</div>
-        <div class="ram-sub">تقبّل الله صيامكم</div>
-        <div class="ram-countdowns">
-          <div class="ram-count iftar"><div class="ram-ico">🌇</div><div class="ram-label">حتى الإفطار</div><div class="ram-time" id="ramIftarTime">--:--:--</div><div class="ram-exact" id="ramIftarExact">—</div></div>
-          <div class="ram-count suhoor"><div class="ram-ico">🌙</div><div class="ram-label">حتى السحور</div><div class="ram-time" id="ramSuhoorTime">--:--:--</div><div class="ram-exact" id="ramSuhoorExact">—</div></div>
+    html += `<div class="ramadan-banner">
+      <div class="rb-ico">🌙</div>
+      <div class="rb-info">
+        <div class="rb-title">رمضان مبارك</div>
+        <div class="rb-sub">تقبّل الله صيامكم</div>
+        <div class="rb-times">
+          <div class="rb-time"><div class="t-label">الإفطار</div><div class="t-value" id="ramIftarTime">--:--:--</div></div>
+          <div class="rb-time"><div class="t-label">السحور</div><div class="t-value" id="ramSuhoorTime">--:--:--</div></div>
         </div>
       </div>
     </div>`;
-    setTimeout(() => GeoSystem.renderRamadanUI(), 100);
+    setTimeout(() => {
+      if (!GeoSystem.isRamadan) return;
+      const now = new Date(); const curSec = now.getHours()*3600 + now.getMinutes()*60 + now.getSeconds();
+      const [mh, mm] = GeoSystem.timings.Maghrib.split(':').map(Number);
+      let diff = (mh*3600 + mm*60) - curSec; if (diff < 0) diff += 86400;
+      const fmtC = (s) => { const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60; return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`; };
+      if ($('ramIftarTime')) $('ramIftarTime').textContent = fmtC(diff);
+      const [fh, fm] = GeoSystem.timings.Fajr.split(':').map(Number);
+      let sd = (fh*3600 + fm*60) - curSec; if (sd < 0) sd += 86400;
+      if ($('ramSuhoorTime')) $('ramSuhoorTime').textContent = fmtC(sd);
+    }, 100);
   }
-
-  // Hero
   const featured = state.movies[0] || state.live[0];
   if (featured && !GeoSystem.isRamadan) {
     const bg = featured.logo ? `background-image:url('${esc(featured.logo)}')` : `background:${gradientFor(featured.name)}`;
     const mi = featured._type === 'movie' ? MovieDates.analyze(featured.name) : null;
-    const meta = mi && mi.year ? ` • ${mi.year}` : '';
+    const meta = mi?.year ? ` · ${mi.year}` : '';
     html += `<div class="hero">
       <div class="bg" style="${bg}"></div>
       <div class="hero-content">
-        <div class="hero-tag">${featured._type === 'movie' ? '🎬 فيلم' : '📺 مباشر'}</div>
+        <div class="hero-tag">${featured._type === 'movie' ? 'فيلم' : 'مباشر'}</div>
         <h1>${esc(featured.name)}</h1>
         <p>${esc(featured.group || 'مميز')}${meta}</p>
-        <button class="pri" onclick="playItem('${esc(featured.url)}')">▶ شاهد الآن</button>
+        <button class="btn btn-pri" onclick="playItem('${esc(featured.url)}')">▶ شاهد</button>
       </div>
     </div>`;
   }
-
-  // متابعة المشاهدة
   if (state.history.length) {
-    html += `<div class="sec-head"><h2><span class="em">▶️</span> متابعة المشاهدة</h2><button class="more" onclick="clearHistory()">مسح</button></div>`;
-    state.history.slice(0, 4).forEach(h => {
-      const pct = h.duration ? Math.min(100, (h.currentTime / h.duration) * 100) : 0;
-      html += `<div class="continue-card" onclick="playItem('${esc(h.url)}')">
-        <div class="thumb" style="${h.logo ? `background-image:url('${esc(h.logo)}');background-size:cover` : `background:${gradientFor(h.name)}`}"></div>
-        <div class="info"><b>${esc(h.name)}</b><small>${h.type === 'live' ? 'مباشر' : fmtTime(h.currentTime) + ' / ' + fmtTime(h.duration)}</small>
-        ${pct > 0 ? `<div class="progress"><div style="width:${pct}%"></div></div>` : ''}</div>
+    html += `<div class="sec"><div class="sec-head"><h2>متابعة</h2></div><div class="hrow">`;
+    state.history.slice(0, 8).forEach(h => {
+      const bg = h.logo ? `background-image:url('${esc(h.logo)}');background-size:cover;background-position:center` : `background:${gradientFor(h.name)}`;
+      html += `<div class="card wide" tabindex="0" onclick="playItem('${esc(h.url)}')">
+        <div class="poster" style="${bg}"><div class="play-ov"><div class="pl">▶</div></div></div>
+        <div class="info"><h3>${esc(h.name)}</h3><span class="sub">${h.type === 'live' ? 'مباشر' : fmtTime(h.currentTime || 0)}</span></div>
       </div>`;
     });
+    html += `</div></div>`;
   }
-
-  // تصنيفات سريعة
-  const groups = [...new Set(state.channels.map(c => c.group || 'أخرى'))].slice(0, 12);
-  if (groups.length) {
-    html += `<div class="sec-head"><h2><span class="em">📂</span> تصفح سريع</h2></div><div style="display:flex;gap:6px;flex-wrap:wrap">`;
-    groups.forEach(g => html += `<button onclick="jumpToGroup('${esc(g).replace(/'/g,"\\'")}')" style="border-radius:20px;padding:7px 14px;font-size:12px">${esc(g)}</button>`);
-    html += `</div>`;
-  }
-
-  // قسم مسلسلات رمضان
-  if (GeoSystem.isRamadan) {
-    const ramSeries = state.series.filter(s => RamadanSeries.isMatch({ name: s.name, group: '' }));
-    if (ramSeries.length) {
-      html += `<div class="ramadan-section"><div class="sec-head"><h2><span class="ram-badge">🌙 رمضان</span> مسلسلات رمضان</h2><button class="more" onclick="switchView('series')">الكل ›</button></div><div class="hrow">`;
-      ramSeries.slice(0, 12).forEach(s => {
-        const cover = s.episodes[0].logo;
-        const bg = cover ? `background-image:url('${esc(cover)}');background-size:cover;background-position:center` : `background:${gradientFor(s.name)}`;
-        html += `<div class="card" onclick="openSeries('${esc(s.name).replace(/'/g,"\\'")}')">
-          <div class="poster" style="${bg}">
-            ${cover ? '' : `<div class="fallback" style="position:absolute;inset:0;display:grid;place-items:center">${esc(s.name.charAt(0))}</div>`}
-            <div class="badge" style="background:#d4a017;color:#1a0f00">🌙 رمضان</div>
-            <div class="play-ov"><div class="pl">▶</div></div>
-          </div>
-          <div class="info"><h3>${esc(s.name)}</h3><span class="sub">${s.episodes.length} حلقة</span></div>
-        </div>`;
-      });
-      html += `</div></div>`;
-    }
-
-    const nowPlaying = RamadanSeries.findNowPlaying();
-    if (nowPlaying.length) {
-      html += `<div class="ramadan-section"><div class="sec-head"><h2><span class="ram-badge">📡</span> يعرض الآن</h2></div><div class="ram-schedule">`;
-      nowPlaying.slice(0, 8).forEach(({ channel, scheduleTime }) => {
-        const now = new Date();
-        const curMin = now.getHours() * 60 + now.getMinutes();
-        const [h, m] = scheduleTime.split(':').map(Number);
-        const isLive = Math.abs(curMin - (h*60+m)) <= 60;
-        html += `<div class="row ${isLive ? 'live-now' : ''}" onclick="playItem('${esc(channel.url)}')">
-          ${isLive ? '<span class="live-dot"></span>' : ''}
-          <span class="time">${scheduleTime.slice(0,5)}</span>
-          <span class="ch-name">${esc(channel.name)}</span>
-          <span class="ch-grp">${esc(channel.group || '')}</span>
-          ${isLive ? '<span class="now-tag">الآن</span>' : ''}
-        </div>`;
-      });
-      html += `</div></div>`;
-    }
-  }
-
-  // صفوف الأفلام والمسلسلات
   if (state.movies.length) {
-    html += `<div class="sec-head"><h2><span class="em">🎬</span> أفلام</h2><button class="more" onclick="switchView('movies')">الكل ›</button></div><div class="hrow">`;
+    html += `<div class="sec"><div class="sec-head"><h2>أفلام</h2><button class="more" onclick="switchView('movies')">الكل ›</button></div><div class="hrow">`;
     state.movies.slice(0, 12).forEach(m => html += cardHTML(m, 'movie'));
-    html += `</div>`;
+    html += `</div></div>`;
   }
   if (state.series.length) {
-    html += `<div class="sec-head"><h2><span class="em">🎞️</span> مسلسلات</h2><button class="more" onclick="switchView('series')">الكل ›</button></div><div class="hrow">`;
+    html += `<div class="sec"><div class="sec-head"><h2>مسلسلات</h2><button class="more" onclick="switchView('series')">الكل ›</button></div><div class="hrow">`;
     state.series.slice(0, 12).forEach(s => {
       const cover = s.episodes[0].logo;
       const bg = cover ? `background-image:url('${esc(cover)}');background-size:cover;background-position:center` : `background:${gradientFor(s.name)}`;
-      html += `<div class="card" onclick="openSeries('${esc(s.name).replace(/'/g,"\\'")}')">
+      html += `<div class="card" tabindex="0" onclick="openSeries('${esc(s.name).replace(/'/g,"\\'")}')">
         <div class="poster" style="${bg}">
           ${cover ? '' : `<div class="fallback" style="position:absolute;inset:0;display:grid;place-items:center">${esc(s.name.charAt(0))}</div>`}
-          <div class="badge">📺 ${s.episodes.length}</div>
+          <div class="badge">${s.episodes.length} حلقة</div>
           <div class="play-ov"><div class="pl">▶</div></div>
         </div>
         <div class="info"><h3>${esc(s.name)}</h3><span class="sub">مسلسل</span></div>
       </div>`;
     });
-    html += `</div>`;
+    html += `</div></div>`;
+  }
+  if (state.live.length) {
+    html += `<div class="sec"><div class="sec-head"><h2>مباشر</h2><button class="more" onclick="switchView('live')">الكل ›</button></div><div class="hrow">`;
+    state.live.slice(0, 12).forEach(l => html += cardHTML(l, 'live'));
+    html += `</div></div>`;
   }
   el.innerHTML = html;
 }
@@ -1072,18 +2527,15 @@ function renderList(container, items, type, filterKey) {
   let list = items;
   if (f) list = list.filter(i => (i.group || '') === f);
   if (q) list = list.filter(i => (i.name || '').toLowerCase().includes(q));
-  if (!list.length) {
-    el.innerHTML = `<div class="empty"><span class="ico">🔍</span><h3>لا نتائج</h3><p>جرّب بحثاً آخر</p></div>`;
-    return;
-  }
+  if (!list.length) { el.innerHTML = `<div class="empty"><div class="ico">◯</div><h3>لا نتائج</h3></div>`; return; }
   const groups = [...new Set(items.map(i => i.group || 'أخرى'))].sort();
   let html = '';
   if (groups.length > 1) {
-    html += `<div style="display:flex;gap:5px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none">`;
-    html += `<button onclick="setFilter('${filterKey}','')" style="border-radius:20px;padding:6px 12px;font-size:11px;min-height:32px;${!f?'background:var(--acc);color:#111;font-weight:700':''}">الكل</button>`;
+    html += `<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:16px;scrollbar-width:none">`;
+    html += `<button class="btn ${!f ? 'btn-pri' : ''}" onclick="setFilter('${filterKey}','')" style="padding:8px 14px;font-size:12px;min-height:34px;border-radius:100px;background:${!f ? 'var(--accent)' : 'var(--fill)'};color:${!f ? '#000' : 'var(--text-3)'}">الكل</button>`;
     groups.slice(0, 40).forEach(g => {
       const on = f === g;
-      html += `<button onclick="setFilter('${filterKey}','${esc(g).replace(/'/g,"\\'")}')" style="border-radius:20px;padding:6px 12px;font-size:11px;min-height:32px;white-space:nowrap;${on?'background:var(--acc);color:#111;font-weight:700':''}">${esc(g)}</button>`;
+      html += `<button class="btn" onclick="setFilter('${filterKey}','${esc(g).replace(/'/g,"\\'")}')" style="padding:8px 14px;font-size:12px;min-height:34px;border-radius:100px;white-space:nowrap;background:${on ? 'var(--accent)' : 'var(--fill)'};color:${on ? '#000' : 'var(--text-3)'};font-weight:${on ? '700' : '600'}">${esc(g)}</button>`;
     });
     html += `</div>`;
   }
@@ -1100,15 +2552,15 @@ function renderSeries() {
   const q = state.search;
   let list = state.series;
   if (q) list = list.filter(s => s.name.toLowerCase().includes(q));
-  if (!list.length) { el.innerHTML = `<div class="empty"><span class="ico">🎞️</span><h3>لا مسلسلات</h3></div>`; return; }
+  if (!list.length) { el.innerHTML = `<div class="empty"><div class="ico">◯</div><h3>لا مسلسلات</h3></div>`; return; }
   let html = `<div class="grid">`;
   list.forEach(s => {
     const cover = s.episodes[0].logo;
     const bg = cover ? `background-image:url('${esc(cover)}');background-size:cover;background-position:center` : `background:${gradientFor(s.name)}`;
-    html += `<div class="card" onclick="openSeries('${esc(s.name).replace(/'/g,"\\'")}')">
+    html += `<div class="card" tabindex="0" onclick="openSeries('${esc(s.name).replace(/'/g,"\\'")}')">
       <div class="poster" style="${bg}">
         ${cover ? '' : `<div class="fallback" style="position:absolute;inset:0;display:grid;place-items:center">${esc(s.name.charAt(0))}</div>`}
-        <div class="badge">📺 ${s.episodes.length}</div>
+        <div class="badge">${s.episodes.length}</div>
         <div class="play-ov"><div class="pl">▶</div></div>
       </div>
       <div class="info"><h3>${esc(s.name)}</h3><span class="sub">${s.episodes.length} حلقة</span></div>
@@ -1120,7 +2572,7 @@ function renderSeries() {
 function renderFavorites() {
   const el = $('favoritesContent');
   const favItems = state.channels.filter(c => state.favs.has(c.url));
-  if (!favItems.length) { el.innerHTML = `<div class="empty"><span class="ico">⭐</span><h3>لا مفضلة</h3><p>اضغط ★ على أي محتوى</p></div>`; return; }
+  if (!favItems.length) { el.innerHTML = `<div class="empty"><div class="ico">☆</div><h3>لا مفضلة</h3><p>اضغط ★ على أي محتوى</p></div>`; return; }
   let html = `<div class="grid">`;
   favItems.forEach(it => html += cardHTML(it, it._type || 'live'));
   html += `</div>`;
@@ -1128,22 +2580,41 @@ function renderFavorites() {
 }
 
 function renderAll() {
-  renderHome(); renderLive(); renderMovies(); renderSeries(); renderFavorites(); updateStats(); renderPlaylistsList();
+  renderHome(); renderLive(); renderMovies(); renderSeries(); renderFavorites(); updateStats(); renderPlaylists();
 }
 function updateStats() {
   $('statLive').textContent = state.live.length;
   $('statMovies').textContent = state.movies.length;
   $('statSeries').textContent = state.series.length;
+  const totalSec = state.history.reduce((a, h) => a + (h.currentTime || 0), 0);
+  $('statWatchTime').textContent = (totalSec / 3600).toFixed(1);
+  $('statFavs').textContent = state.favs.size;
+  $('statHistory').textContent = state.history.length;
+}
+function renderPlaylists() {
+  const el = $('playlistsList'); if (!el) return;
+  if (!state.playlists.length) { el.innerHTML = `<div style="padding:14px;text-align:center;color:var(--text-3);font-size:12px">لا قوائم</div>`; return; }
+  el.innerHTML = state.playlists.map(p => `
+    <div class="settings-row">
+      <div class="ic gray">≡</div>
+      <div class="txt"><b>${esc(p.name)}</b><small>${p.count} عنصر</small></div>
+      <button class="icon-btn" style="width:32px;height:32px;min-height:auto;font-size:13px;color:#ff453a" onclick="removePlaylist('${p.id}')">✕</button>
+    </div>`).join('');
+}
+function removePlaylist(id) {
+  const p = state.playlists.find(x => x.id === id); if (!p) return;
+  if (!confirm(`حذف "${p.name}"؟`)) return;
+  state.playlists = state.playlists.filter(x => x.id !== id);
+  save(); renderPlaylists();
+  if (!state.playlists.length) { state.channels = []; state.live = []; state.movies = []; state.series = []; renderAll(); }
 }
 
-/* ===== Navigation ===== */
 function switchView(name) {
-  document.querySelectorAll('.main-nav button').forEach(b => b.classList.toggle('on', b.dataset.view === name));
-  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
+  $$('.main-nav button').forEach(b => b.classList.toggle('on', b.dataset.view === name));
+  $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
   $('mainArea').scrollTop = 0;
 }
-function setFilter(key, val) { state.filters[key] = val; renderLive(); renderMovies(); }
-function jumpToGroup(g) { switchView('live'); setFilter('live', g); }
+function setFilter(k, v) { state.filters[k] = v; renderLive(); renderMovies(); }
 function toggleFav(url, btn) {
   if (state.favs.has(url)) state.favs.delete(url); else state.favs.add(url);
   save();
@@ -1162,13 +2633,14 @@ function openSeries(name) {
   });
   let html = '';
   [...bySeason.keys()].sort((a,b) => a-b).forEach(sn => {
-    html += `<div class="sec-head"><h2><span class="em">📺</span> الموسم ${sn}</h2></div>`;
-    html += `<div style="display:grid;gap:5px">`;
+    html += `<div style="font-weight:700;font-size:14px;color:var(--text-3);margin:16px 0 8px;text-transform:uppercase;letter-spacing:.05em">الموسم ${sn}</div>`;
+    html += `<div class="settings-list">`;
     bySeason.get(sn).forEach(ep => {
       const num = ep._meta?.episode || '?';
-      html += `<div class="continue-card" onclick="closeDialog('seriesDialog');playItem('${esc(ep.url)}')">
-        <div class="thumb" style="background:${gradientFor(ep.name)};display:grid;place-items:center;color:#fff;font-weight:800;font-size:18px">${num}</div>
-        <div class="info"><b>الحلقة ${num}</b><small>${esc(ep.name)}</small></div>
+      html += `<div class="settings-row" onclick="closeDialog('seriesDialog');playItem('${esc(ep.url)}')">
+        <div class="ic gray">${num}</div>
+        <div class="txt"><b>الحلقة ${num}</b><small>${esc(ep.name)}</small></div>
+        <div class="arr">›</div>
       </div>`;
     });
     html += `</div>`;
@@ -1177,36 +2649,34 @@ function openSeries(name) {
   openDialog('seriesDialog');
 }
 
-/* ===== Player ===== */
-function playItem(url) {
+async function playItem(url) {
   const item = state.channels.find(c => c.url === url);
-  if (!item) { toast('العنصر غير موجود', 'err'); return; }
+  if (!item) { toast('العنصر غير موجود'); return; }
   currentItem = item;
+  ServerManager.failoverAttempts = 0;
   $('playerModal').classList.add('open');
   $('playerTitle').innerHTML = `${esc(item.name)}<small>${esc(item.group || '')}</small>`;
   const fav = state.favs.has(item.url);
   $('playerFav').textContent = fav ? '★' : '☆';
   $('playerFav').classList.toggle('on', fav);
-  if (hls) { try { hls.destroy(); } catch {} hls = null; }
-  video.removeAttribute('src'); try { video.load(); } catch {}
-  showBuffering(true); hideMsg();
+  showBuf(true); hideMsg();
   const isLive = item._type === 'live' || /\.ts(\?|$)/i.test(url) || /\/live\//.test(url);
-  const isHls = /\.m3u8(\?|#|$)/i.test(url) || /m3u8/i.test(url);
-  const nativeHls = video.canPlayType('application/vnd.apple.mpegurl') !== '';
   document.querySelector('.seek-row').style.display = isLive ? 'none' : '';
-  if (isHls && !nativeHls && window.Hls && Hls.isSupported()) {
-    hls = new Hls({ maxBufferLength: 30, backBufferLength: 30, lowLatencyMode: true, enableWorker: true, fragLoadingMaxRetry: 6, manifestLoadingMaxRetry: 4 });
-    hls.loadSource(url); hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, () => { showBuffering(false); video.play().catch(()=>{}); });
-    hls.on(Hls.Events.ERROR, (_, d) => {
-      if (!d.fatal) return;
-      if (d.type === Hls.ErrorTypes.NETWORK_ERROR) { showMsg('جارٍ إعادة الاتصال...'); hls.startLoad(); }
-      else if (d.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
-      else { showMsg('تعذّر التشغيل', true); showBuffering(false); }
-    });
-  } else { video.src = url; video.play().catch(()=>{}); showBuffering(false); }
-  addHistory(item);
-  resetHideTimer();
+  try {
+    const res = await PlayerEngine.play(url, video);
+    if (res.hls) {
+      res.hls.on(Hls.Events.ERROR, (_, d) => {
+        if (!d.fatal) return;
+        if (d.type === Hls.ErrorTypes.NETWORK_ERROR) {
+          showMsg('إعادة الاتصال...');
+          if (!ServerManager.onStreamError()) res.hls.startLoad();
+        } else if (d.type === Hls.ErrorTypes.MEDIA_ERROR) res.hls.recoverMediaError();
+        else { showMsg('تعذّر التشغيل', true); showBuf(false); ServerManager.onStreamError(); }
+      });
+    }
+    video.addEventListener('playing', () => showBuf(false), { once: true });
+  } catch (e) { console.error(e); showMsg('تعذّر التشغيل', true); showBuf(false); }
+  addHistory(item); resetHideTimer();
 }
 
 function addHistory(item) {
@@ -1215,18 +2685,18 @@ function addHistory(item) {
   state.history.unshift({ url: item.url, name: item.name, logo: item.logo, group: item.group, type: item._type, ts: Date.now(), currentTime: 0, duration: 0 });
   state.history = state.history.slice(0, 100); save();
 }
-function updateHistoryProgress() {
+function updateHistory() {
   if (!currentItem || !video.duration) return;
   const h = state.history.find(x => x.url === currentItem.url);
   if (h) { h.currentTime = video.currentTime; h.duration = video.duration; save(); }
 }
 function closePlayer() {
-  if (hls) { try { hls.destroy(); } catch {} hls = null; }
+  if (window._hls) { try { window._hls.destroy(); } catch {} window._hls = null; window.hls = null; }
   video.pause(); video.removeAttribute('src'); try { video.load(); } catch {}
   $('playerModal').classList.remove('open');
-  currentItem = null; updateHistoryProgress(); renderHome();
+  currentItem = null; updateHistory(); renderHome();
 }
-function showBuffering(on) { $('buffering').classList.toggle('show', on); }
+function showBuf(on) { $('buffering').classList.toggle('show', on); }
 function showMsg(t, err) { const m = $('playerMsg'); m.textContent = t; m.className = 'player-msg show' + (err ? ' err' : ''); }
 function hideMsg() { $('playerMsg').className = 'player-msg'; }
 function resetHideTimer() {
@@ -1248,7 +2718,7 @@ $('playerFav').onclick = () => {
 };
 $('playerPip').onclick = async () => {
   try { if (document.pictureInPictureElement) await document.exitPictureInPicture(); else await video.requestPictureInPicture(); }
-  catch { toast('PiP غير مدعوم', 'err'); }
+  catch { toast('PiP غير مدعوم'); }
 };
 $('btnPlay').onclick = () => video.paused ? video.play() : video.pause();
 $('btnBack10').onclick = () => video.currentTime -= 10;
@@ -1259,14 +2729,13 @@ const aspects = ['fit','fill','stretch']; let aspectIdx = 0;
 $('btnAspect').onclick = () => {
   aspectIdx = (aspectIdx+1)%aspects.length;
   $('playerStage').className = 'player-stage aspect-' + aspects[aspectIdx];
-  $('btnAspect').textContent = {fit:'⛶',fill:'⊟',stretch:'↔'}[aspects[aspectIdx]];
 };
 $('btnQuality').onclick = () => {
-  if (!hls || !hls.levels || hls.levels.length < 2) { toast('جودة واحدة متاحة','',1200); return; }
-  const cur = hls.currentLevel;
-  const next = cur === -1 ? 0 : (cur+1)%hls.levels.length;
-  if (next === 0 && cur !== -1) { hls.currentLevel = -1; $('btnQuality').textContent = 'Auto'; }
-  else { hls.currentLevel = next; $('btnQuality').textContent = hls.levels[next].height + 'p'; }
+  if (!window._hls?.levels || window._hls.levels.length < 2) { toast('جودة واحدة'); return; }
+  const cur = window._hls.currentLevel;
+  const next = cur === -1 ? 0 : (cur+1)%window._hls.levels.length;
+  if (next === 0 && cur !== -1) { window._hls.currentLevel = -1; $('btnQuality').textContent = 'Auto'; }
+  else { window._hls.currentLevel = next; $('btnQuality').textContent = window._hls.levels[next].height + 'p'; }
 };
 $('btnFullscreen').onclick = () => {
   const el = $('playerModal');
@@ -1276,43 +2745,61 @@ $('btnFullscreen').onclick = () => {
 $('seekBar').oninput = e => { if (video.duration) video.currentTime = (e.target.value/100)*video.duration; };
 video.addEventListener('play', () => { $('btnPlay').textContent = '⏸'; resetHideTimer(); });
 video.addEventListener('pause', () => { $('btnPlay').textContent = '▶'; $('playerModal').classList.remove('hide-ui'); });
-video.addEventListener('waiting', () => showBuffering(true));
-video.addEventListener('playing', () => { showBuffering(false); hideMsg(); });
-video.addEventListener('error', () => { showMsg('تعذّر التشغيل', true); showBuffering(false); });
+video.addEventListener('waiting', () => showBuf(true));
+video.addEventListener('playing', () => { showBuf(false); hideMsg(); });
+video.addEventListener('error', () => { showMsg('تعذّر التشغيل', true); showBuf(false); });
 video.addEventListener('timeupdate', () => {
   if (!video.duration) return;
   $('timeCur').textContent = fmtTime(video.currentTime);
   $('timeDur').textContent = fmtTime(video.duration);
   $('seekBar').value = (video.currentTime/video.duration)*100;
 });
-setInterval(updateHistoryProgress, 5000);
+setInterval(updateHistory, 5000);
 
 document.addEventListener('keydown', e => {
-  if (e.target.matches('input,textarea')) return;
-  if (!$('playerModal').classList.contains('open')) { if (e.key === '/') { e.preventDefault(); $('globalSearch').focus(); } return; }
+  if (e.target.matches('input,textarea,select')) return;
+  if (!$('playerModal').classList.contains('open') && !$('ytPlayerModal').classList.contains('open')) {
+    if (e.key === '/') { e.preventDefault(); $('globalSearch').focus(); }
+    return;
+  }
+  if ($('ytPlayerModal').classList.contains('open')) {
+    if (e.key === 'Escape') YouTube.close();
+    return;
+  }
   switch (e.key) {
     case ' ': e.preventDefault(); $('btnPlay').click(); break;
     case 'Escape': closePlayer(); break;
     case 'ArrowRight': video.currentTime += 5; break;
     case 'ArrowLeft': video.currentTime -= 5; break;
-    case 'f': $('btnFullscreen').click(); break;
-    case 'p': $('playerPip').click(); break;
-    case 'm': video.muted = !video.muted; break;
+    case 'f': case 'F': $('btnFullscreen').click(); break;
+    case 'p': case 'P': $('playerPip').click(); break;
+    case 'm': case 'M': video.muted = !video.muted; break;
   }
 });
 
-/* ===== Dialogs ===== */
-function openDialog(id) { $(id).classList.add('open'); if (id === 'playlistDialog') renderPlaylistsList(); }
+function openDialog(id) { $(id).classList.add('open'); if (id === 'playlistDialog') renderPlaylists(); }
 function closeDialog(id) { $(id).classList.remove('open'); }
+function openSettings() {
+  if (PINLock.hasPin()) PINLock.prompt('أدخل الرمز', () => openDialog('settingsDialog'), true);
+  else openDialog('settingsDialog');
+}
 function openLocationSettings() { $('welcomeOverlay').classList.add('show'); GeoSystem.bindWelcomeEvents(); }
 
-document.querySelectorAll('.dlg-tabs button').forEach(b => {
+$$('.dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) closeDialog(d.id); }));
+$$('.dlg-tabs button').forEach(b => {
   b.onclick = () => {
-    document.querySelectorAll('.dlg-tabs button').forEach(x => x.classList.toggle('on', x === b));
+    $$('.dlg-tabs button').forEach(x => x.classList.toggle('on', x === b));
     const t = b.dataset.ptab;
     $('ptab-url').style.display = t === 'url' ? '' : 'none';
     $('ptab-xtream').style.display = t === 'xtream' ? '' : 'none';
     $('ptab-file').style.display = t === 'file' ? '' : 'none';
+  };
+});
+$$('#settingsTabs button').forEach(b => {
+  b.onclick = () => {
+    $$('#settingsTabs button').forEach(x => x.classList.toggle('on', x === b));
+    $$('.settings-pane').forEach(p => p.classList.toggle('on', p.dataset.pane === b.dataset.stab));
+    if (b.dataset.stab === 'stats') updateStats();
   };
 });
 
@@ -1341,15 +2828,13 @@ function parseM3U(text) {
 }
 
 $('btnLoadPlaylist').onclick = async () => {
-  const b = $('btnLoadPlaylist'); b.disabled = true; b.textContent = 'جارٍ...';
+  const b = $('btnLoadPlaylist'); b.disabled = true; b.textContent = 'جاري...';
   try {
-    const urlTab = $('ptab-url').style.display !== 'none';
-    const xtTab = $('ptab-xtream').style.display !== 'none';
-    if (urlTab) {
+    if ($('ptab-url').style.display !== 'none') {
       const url = $('pl-url').value.trim(); if (!url) throw new Error('أدخل الرابط');
-      applyPlaylist(parseM3U(await fetchText(url)), $('pl-name-url').value.trim() || 'قائمة M3U');
+      applyPlaylist(parseM3U(await fetchText(url)), $('pl-name-url').value.trim() || 'قائمة');
       $('pl-url').value = ''; $('pl-name-url').value = '';
-    } else if (xtTab) {
+    } else if ($('ptab-xtream').style.display !== 'none') {
       const h = $('xt-host').value.trim().replace(/\/$/, '');
       const u = encodeURIComponent($('xt-user').value.trim());
       const p = encodeURIComponent($('xt-pass').value);
@@ -1360,75 +2845,87 @@ $('btnLoadPlaylist').onclick = async () => {
       applyPlaylist(parseM3U(await f.text()), f.name.replace(/\.[^.]+$/, ''));
     }
     closeDialog('playlistDialog');
-  } catch (e) { toast('تعذّر: ' + (e.message || e), 'err', 4000); }
+  } catch (e) { toast('تعذّر: ' + (e.message || e)); }
   finally { b.disabled = false; b.textContent = 'تحميل'; }
 };
-
-function renderPlaylistsList() {
-  const el = $('playlistsList');
-  if (!state.playlists.length) { el.innerHTML = '<div style="padding:14px;text-align:center;color:var(--mut);font-size:12px">لا قوائم</div>'; return; }
-  el.innerHTML = state.playlists.map(p => `
-    <div class="settings-row">
-      <div class="ic">📚</div>
-      <div class="txt"><b>${esc(p.name)}</b><small>${p.count} عنصر</small></div>
-      <button class="ghost" style="min-height:auto;padding:5px 9px;color:var(--err)" onclick="removePlaylist('${p.id}')">🗑️</button>
-    </div>
-  `).join('');
-}
-function removePlaylist(id) {
-  const p = state.playlists.find(x => x.id === id); if (!p) return;
-  if (!confirm(`حذف "${p.name}"؟`)) return;
-  state.playlists = state.playlists.filter(x => x.id !== id); save(); renderPlaylistsList();
-  if (!state.playlists.length) { state.channels = []; state.live = []; state.movies = []; state.series = []; renderAll(); }
-}
 
 document.addEventListener('dragover', e => e.preventDefault());
 document.addEventListener('drop', async e => {
   e.preventDefault();
   const f = e.dataTransfer?.files?.[0]; if (!f) return;
   try { applyPlaylist(parseM3U(await f.text()), f.name.replace(/\.[^.]+$/, '')); }
-  catch (err) { toast('تعذّر: ' + err.message, 'err'); }
+  catch (err) { toast('تعذّر: ' + err.message); }
 });
 
-/* ===== Settings ===== */
 function setTheme(t) {
-  document.documentElement.dataset.theme = t;
+  document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
   localStorage.setItem('iptv.theme', t);
-  document.querySelectorAll('#themeGrid .theme-btn').forEach(b => b.classList.toggle('on', b.dataset.theme === t));
+  document.querySelector('meta[name=theme-color]').setAttribute('content', t === 'light' ? '#ffffff' : '#000000');
+  $$('#themeGrid .theme-btn').forEach(b => b.classList.toggle('on', b.dataset.theme === t));
 }
-function setAccent(a) {
-  document.documentElement.dataset.accent = a;
-  localStorage.setItem('iptv.accent', a);
-  document.querySelectorAll('#accentGrid .accent-btn').forEach(b => b.classList.toggle('on', b.dataset.accent === a));
+$$('#themeGrid .theme-btn').forEach(b => b.onclick = () => setTheme(b.dataset.theme));
+
+function exportFullBackup() {
+  const data = { v: 1, ts: Date.now(), favs: [...state.favs], history: state.history, playlists: state.playlists, servers: ServerManager.servers, engine: PlayerEngine.current, playerPrefs: PlayerEngine.prefs, theme: localStorage.getItem('iptv.theme'), location: localStorage.getItem('iptv.location') };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = `aurora-backup-${Date.now()}.json`; a.click();
+  toast('تم التصدير');
 }
-document.querySelectorAll('#themeGrid .theme-btn').forEach(b => b.onclick = () => setTheme(b.dataset.theme));
-document.querySelectorAll('#accentGrid .accent-btn').forEach(b => b.onclick = () => setAccent(b.dataset.accent));
-
-function exportFavs() {
-  const data = JSON.stringify({ favs: [...state.favs], history: state.history, ts: Date.now() }, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `prime-iptv-${Date.now()}.json`; a.click();
-  toast('تم التصدير', 'ok');
+function importFullBackup() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = async e => {
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      const d = JSON.parse(await f.text());
+      if (d.favs) state.favs = new Set(d.favs);
+      if (d.history) state.history = d.history;
+      if (d.playlists) state.playlists = d.playlists;
+      if (d.servers) { ServerManager.servers = d.servers; ServerManager.save(); ServerManager.render(); }
+      if (d.engine) { PlayerEngine.current = d.engine; PlayerEngine.init(); }
+      if (d.playerPrefs) PlayerEngine.prefs = d.playerPrefs;
+      if (d.theme) setTheme(d.theme);
+      save(); renderAll();
+      toast('تم الاستيراد');
+    } catch { toast('ملف غير صالح'); }
+  };
+  input.click();
 }
-function importFavs() { $('favFileInput').click(); }
-$('favFileInput').onchange = async e => {
-  const f = e.target.files[0]; if (!f) return;
-  try { const data = JSON.parse(await f.text()); if (data.favs) state.favs = new Set([...state.favs, ...data.favs]); if (data.history) state.history = [...data.history, ...state.history].slice(0,100); save(); renderAll(); toast('تم الاستيراد', 'ok'); }
-  catch { toast('ملف غير صالح', 'err'); }
-};
-function clearHistory() { if (!state.history.length) return; if (!confirm('مسح السجل؟')) return; state.history = []; save(); renderHome(); toast('تم المسح', 'ok'); }
-function clearAll() { if (!confirm('حذف كل شيء؟')) return; localStorage.clear(); location.reload(); }
+function clearHistory() {
+  if (!state.history.length) return;
+  if (!confirm('مسح السجل؟')) return;
+  state.history = []; save(); renderHome(); toast('تم المسح');
+}
+function resetAll() {
+  PINLock.prompt('أدخل الرمز', () => {
+    if (!confirm('حذف كل شيء؟')) return;
+    if (!confirm('تأكيد نهائي؟')) return;
+    localStorage.clear(); location.reload();
+  }, true);
+}
 
-/* ===== Init ===== */
-document.querySelectorAll('.main-nav button').forEach(b => b.onclick = () => switchView(b.dataset.view));
-$('globalSearch').oninput = e => { state.search = e.target.value.trim().toLowerCase(); renderLive(); renderMovies(); renderSeries(); renderFavorites(); };
-$('btnSettings').onclick = () => openDialog('settingsDialog');
-document.querySelectorAll('.dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) closeDialog(d.id); }));
-$('prayerPill').onclick = () => GeoSystem.showTimings();
+document.addEventListener('DOMContentLoaded', () => {
+  load();
+  renderAll();
+  PlayerEngine.init();
+  ServerManager.init();
+  PINLock.init();
+  VoiceAssistant.init();
+  YouTube.init();
+  NetworkOptimizer.init();
+  GeoSystem.init();
 
-load(); renderAll();
-GeoSystem.init();
-setInterval(() => GeoSystem.loadTimings(true).then(() => GeoSystem.updateUI()), 6*3600*1000);
+  $$('.main-nav button').forEach(b => { if (b.dataset.view) b.onclick = () => switchView(b.dataset.view); });
+  $('globalSearch').oninput = e => {
+    state.search = e.target.value.trim().toLowerCase();
+    renderLive(); renderMovies(); renderSeries(); renderFavorites();
+  };
+  $('btnSettings').onclick = openSettings;
+  $('prayerPill').onclick = () => GeoSystem.showTimings();
+
+  setInterval(() => GeoSystem.loadTimings(true).then(() => GeoSystem.updateUI()), 6 * 3600 * 1000);
+});
 </script>
 </body>
 </html>
